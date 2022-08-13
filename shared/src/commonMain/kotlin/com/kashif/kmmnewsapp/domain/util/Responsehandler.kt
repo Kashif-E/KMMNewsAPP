@@ -10,13 +10,17 @@ open class ResponseHandler {
         return DataState.Error(DataState.CustomMessages.ExceptionMessage("No Internet."))
     }
 
-    fun handleException(statusCode: Int): DataState.CustomMessages {
-        return getErrorType(statusCode)
+    fun <T : Any>  handleException(exception: String): DataState<T> {
+        return DataState.Error(DataState.CustomMessages.ExceptionMessage(exception))
+    }
+
+    fun <T : Any> handleSuccess(data: T?):DataState<T> {
+        return DataState.Success(data)
     }
 }
 
 private fun getErrorType(code: Int): DataState.CustomMessages {
-  return DataState.CustomMessages.ExceptionMessage("An error Occurred with code $code")
+    return DataState.CustomMessages.ExceptionMessage("An error Occurred with code $code")
 }
 
 

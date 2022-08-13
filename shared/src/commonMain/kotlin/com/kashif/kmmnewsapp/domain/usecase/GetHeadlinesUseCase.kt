@@ -2,32 +2,27 @@ package com.kashif.kmmnewsapp.domain.usecase
 
 import com.kashif.kmmnewsapp.data.remote.dto.asDomainModel
 import com.kashif.kmmnewsapp.data.repository.AbstractRepository
-import com.kashif.kmmnewsapp.domain.util.DataState
-import com.kashif.kmmnewsapp.domain.util.DataState.CustomMessages.ExceptionMessage
+import com.kashif.kmmnewsapp.domain.util.ResponseHandler
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.flow
 
 class GetHeadlinesUseCase(
-    private val repository: AbstractRepository
+    private val repository: AbstractRepository,
+    private val responsehandler: ResponseHandler
 ) {
 
-    operator fun invoke(page: Int, pageSize: Int, country: String = "us") = flow {
+    operator fun invoke(page: Int, pageSize: Int = 20, country: String = "us") = flow {
 
         val response = repository.getAllHeadlines(page, pageSize, country)
 
-        if (response.data != null) {
-            emit(response.also { it.data?.articles?.asDomainModel() })
-        } else {
-            emit(response)
-        }
+
+        emit(responsehandler.handleSuccess(response.data?.asDomainModel()))
 
 
     }.catch {
         emit(
-            DataState.Error(
-                ExceptionMessage(
-                    ((it.message ?: it.cause) ?: "Something Went wrong.").toString()
-                )
+            responsehandler.handleException(
+                ((it.message ?: it.cause) ?: "Something Went wrong.").toString()
             )
         )
     }

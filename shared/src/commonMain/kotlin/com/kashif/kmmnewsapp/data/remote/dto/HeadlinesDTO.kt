@@ -8,9 +8,7 @@ data class HeadlinesDTO(
 
     val articles: List<Article>,
 
-    val status: String,
 
-    val totalResults: Int
 )
 
 
@@ -41,17 +39,18 @@ data class Article(
     val urlToImage: String? = ""
 )
 
-fun List<Article>.asDomainModel(): List<HeadlineDomainModel> {
-    return map {
-        HeadlineDomainModel(
-            author = it.author?: "Anonymous",
-            content = it.content?:"",
-            description = it.description?:"Click to see details",
-            publishedAt = it.publishedAt,
-            source = it.source.name,
-            title = it.title,
-            urlToImage = it.urlToImage?:"",
-            url = it.url
-        )
+fun HeadlinesDTO.asDomainModel(): List<HeadlineDomainModel> {
+    return this.articles.map {
+           HeadlineDomainModel(
+               author = it.author?: "Anonymous",
+               content = it.content?:"",
+               description = it.description?:"Click to see details",
+               publishedAt = it.publishedAt,
+               source = it.source.name,
+               title = it.title,
+               urlToImage = it.urlToImage?:"",
+               url = it.url
+           )
+
     }
 }
