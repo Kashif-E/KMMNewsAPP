@@ -8,7 +8,7 @@ abstract class AbstractKtorService {
         pageSize: Int,
         page: Int,
         country: String,
-    ): DataState<List<HeadlinesDTO>>
+    ): DataState<HeadlinesDTO>
 
 }
 

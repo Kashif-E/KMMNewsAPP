@@ -2,7 +2,7 @@ package com.kashif.kmmnewsapp
 
 
 import android.os.Parcelable
-import com.kashif.kmmnewsapp.presentation.screen.ScreenViewModel
+import com.kashif.kmmnewsapp.presentation.home.HomeScreenViewModel
 import io.ktor.client.engine.android.*
 import kotlinx.parcelize.Parcelize
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -30,7 +30,7 @@ actual fun platformModule() = module {
      */
 
    viewModel {
-       ScreenViewModel()
+       HomeScreenViewModel()
    }
 
 

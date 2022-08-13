@@ -12,7 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import com.kashif.kmmnewsapp.android.theme.KmmNewsTheme
-import com.kashif.kmmnewsapp.presentation.screen.ScreenViewModel
+import com.kashif.kmmnewsapp.presentation.home.HomeScreenViewModel
 import org.koin.androidx.compose.get
 
 
@@ -31,7 +31,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun Screen(viewModel: ScreenViewModel = get()) {
+fun Screen(viewModel: HomeScreenViewModel = get()) {
 
     Column(
         modifier = Modifier.fillMaxSize(),

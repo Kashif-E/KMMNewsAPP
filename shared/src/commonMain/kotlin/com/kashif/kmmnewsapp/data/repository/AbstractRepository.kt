@@ -11,5 +11,5 @@ abstract class AbstractRepository {
         page: Int,
         pageSize: Int,
         country: String
-    ): DataState<List<HeadlinesDTO>>
+    ): DataState<HeadlinesDTO>
 }

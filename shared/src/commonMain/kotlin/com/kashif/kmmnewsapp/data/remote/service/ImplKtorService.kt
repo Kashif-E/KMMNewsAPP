@@ -17,10 +17,8 @@ class ImplKtorService(
         pageSize: Int,
         page: Int,
         country: String,
-        source: String,
-        category: String,
-        keyword: String
-    ): DataState<List<HeadlinesDTO>> {
+
+    ): DataState<HeadlinesDTO> {
 
         return try {
             DataState.Success(httpClient.get("$baseUrl/${EndPoints.HEADLINES}") {

@@ -1,5 +1,6 @@
 package com.kashif.kmmnewsapp.domain.usecase
 
+import com.kashif.kmmnewsapp.data.remote.dto.asDomainModel
 import com.kashif.kmmnewsapp.data.repository.AbstractRepository
 import com.kashif.kmmnewsapp.domain.util.DataState
 import com.kashif.kmmnewsapp.domain.util.DataState.CustomMessages.ExceptionMessage
@@ -14,7 +15,11 @@ class GetHeadlinesUseCase(
 
         val response = repository.getAllHeadlines(page, pageSize, country)
 
-        emit(response)
+        if (response.data != null) {
+            emit(response.also { it.data?.articles?.asDomainModel() })
+        } else {
+            emit(response)
+        }
 
 
     }.catch {

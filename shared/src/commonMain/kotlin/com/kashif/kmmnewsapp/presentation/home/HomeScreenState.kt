@@ -1,6 +1,6 @@
-package com.kashif.kmmnewsapp.presentation.screen
+package com.kashif.kmmnewsapp.presentation.home
 
-data class ScreenState(
+data class HomeScreenState(
     val isKmmAwesome: Boolean= true,
     val message: String = "KMM is Awesome. <3"
 )

@@ -2,7 +2,7 @@ package com.kashif.kmmnewsapp
 
 
 
-import com.kashif.kmmnewsapp.presentation.screen.ScreenViewModel
+import com.kashif.kmmnewsapp.presentation.home.HomeScreenViewModel
 import io.ktor.client.engine.darwin.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -16,7 +16,7 @@ actual fun platformModule() = module {
     //single or factory can be used to get a viewmodel object for swiftui
 
     single {
-        ScreenViewModel()
+        HomeScreenViewModel()
     }
 }
 
@@ -26,7 +26,7 @@ actual fun platformModule() = module {
  * in swift ui to get an object of screenviewmodel
  */
 object ViewModels : KoinComponent {
-    fun getScreenViewModel() = get<ScreenViewModel>()
+    fun getScreenViewModel() = get<HomeScreenViewModel>()
 
 }
 
