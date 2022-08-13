@@ -2,6 +2,8 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
+    id(Realm.pluginId)
+
 }
 
 version = "1.0"
@@ -12,6 +14,19 @@ kotlin {
     iosArm64()
     iosSimulatorArm64()
 
+
+    kotlin.targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java) {
+
+        // export correct artifact to use all classes of library directly from Swift
+
+        binaries.withType(org.jetbrains.kotlin.gradle.plugin.mpp.Framework::class.java).all {
+            export("dev.icerock.moko:mvvm-core:0.13.1")
+        }
+
+        binaries.all {
+            binaryOptions["memoryModel"] = "experimental"
+        }
+    }
     cocoapods {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"

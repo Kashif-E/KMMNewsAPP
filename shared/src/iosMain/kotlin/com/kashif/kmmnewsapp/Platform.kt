@@ -15,7 +15,7 @@ actual fun platformModule() = module {
 
     //single or factory can be used to get a viewmodel object for swiftui
 
-    factory {
+    single {
         ScreenViewModel()
     }
 }
