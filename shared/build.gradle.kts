@@ -1,8 +1,9 @@
 plugins {
-    kotlin("multiplatform")
-    kotlin("native.cocoapods")
-    id("com.android.library")
+    kotlin(KotlinPlugins.multiplatform)
+    kotlin(KotlinPlugins.cocoapods)
+    id(KotlinPlugins.android)
     id(Realm.pluginId)
+    id(KotlinPlugins.parcelize)
 
 }
 
@@ -20,7 +21,7 @@ kotlin {
         // export correct artifact to use all classes of library directly from Swift
 
         binaries.withType(org.jetbrains.kotlin.gradle.plugin.mpp.Framework::class.java).all {
-            export("dev.icerock.moko:mvvm-core:0.13.1")
+            export(Moko.mokoMVVMCore)
         }
 
         binaries.all {

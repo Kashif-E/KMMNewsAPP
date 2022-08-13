@@ -29,3 +29,6 @@ object ViewModels : KoinComponent {
     fun getScreenViewModel() = get<ScreenViewModel>()
 
 }
+
+
+actual interface CommonParcelable
