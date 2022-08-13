@@ -34,7 +34,7 @@ fun initKoin(
     }
 
 // called by iOS etc
-fun initKoin(baseUrl: String) = initKoin(enableNetworkLogs = false, baseUrl) {}
+fun initKoin(baseUrl: String) = initKoin(enableNetworkLogs = true, baseUrl) {}
 
 fun commonModule(enableNetworkLogs: Boolean, baseUrl: String) =
     getUseCaseModule() + getDateModule(

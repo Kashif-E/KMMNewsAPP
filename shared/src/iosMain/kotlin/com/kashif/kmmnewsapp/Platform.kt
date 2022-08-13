@@ -13,20 +13,20 @@ actual fun platformModule() = module {
         Darwin.create()
     }
 
-    //single or factory can be used to get a viewmodel object for swiftui
+    //single or factory can be used to get a view-model object for swiftui
 
     single {
-        HomeScreenViewModel()
+        HomeScreenViewModel(get())
     }
 }
 
 /**
  * viewmodels object implements koin component thus its able to get any
- * dependency that is listed in platform module we can call getScreenviewmodel()
- * in swift ui to get an object of screenviewmodel
+ * dependency that is listed in platform module we can call getHomeviewmodel()
+ * in swift ui to get an object of HomeViewModel
  */
 object ViewModels : KoinComponent {
-    fun getScreenViewModel() = get<HomeScreenViewModel>()
+    fun getHomeViewModel() = get<HomeScreenViewModel>()
 
 }
 
