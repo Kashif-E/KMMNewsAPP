@@ -21,20 +21,61 @@ kotlin {
             baseName = "shared"
         }
     }
-    
+
     sourceSets {
-        val commonMain by getting
+        val commonMain by getting {
+            dependencies {
+                with(Ktor) {
+                    implementation(clientCore)
+                    implementation(clientJson)
+                    implementation(clientLogging)
+                    implementation(clientSerialization)
+                    implementation(contentNegotiation)
+                    implementation(json)
+                }
+                with(Realm) {
+                    implementation(realm)
+                }
+                with(Koin) {
+
+                    implementation(koin)
+                }
+                with(Kotlinx) {
+                    implementation(serializationCore)
+                    implementation(datetime)
+                }
+
+                with(Moko) {
+                    api(mokoMVVMCore)
+                }
+
+                with(Coroutines) {
+                    implementation(coroutines)
+                }
+
+            }
+        }
         val commonTest by getting {
             dependencies {
                 implementation(kotlin("test"))
             }
         }
-        val androidMain by getting
+        val androidMain by getting {
+            dependencies {
+                implementation(Ktor.clientAndroid)
+                implementation(Koin.koinAndroid)
+
+            }
+        }
         val androidTest by getting
         val iosX64Main by getting
         val iosArm64Main by getting
         val iosSimulatorArm64Main by getting
         val iosMain by creating {
+
+            dependencies {
+                implementation(Ktor.clientIos)
+            }
             dependsOn(commonMain)
             iosX64Main.dependsOn(this)
             iosArm64Main.dependsOn(this)
