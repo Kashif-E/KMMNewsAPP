@@ -1,4 +1,4 @@
-package com.kashif.kmmnewsapp.android.theme
+package com.kashif.kmmnewsapp.android.ui.theme
 
 import androidx.compose.ui.graphics.Color
 

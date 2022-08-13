@@ -28,6 +28,10 @@ android {
 
 dependencies {
     implementation(project(":shared"))
+
+    with(Accompanist){
+        implementation(coil)
+    }
     with(Compose){
         implementation(util){
 

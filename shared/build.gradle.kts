@@ -2,7 +2,10 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
+    kotlin(KotlinPlugins.serialization) version "1.7.10"
     id(Realm.pluginId)
+    id(KotlinPlugins.parcelize)
+
 
 }
 
