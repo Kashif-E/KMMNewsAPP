@@ -1,4 +1,4 @@
-package com.kashif.kmmnewsapp.android.ui.theme
+package com.kashif.kmmnewsapp.android.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

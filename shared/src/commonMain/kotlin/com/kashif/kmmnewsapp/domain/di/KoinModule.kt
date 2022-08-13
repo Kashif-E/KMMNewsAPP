@@ -1,14 +1,6 @@
 package com.kashif.kmmnewsapp.domain.di
 
-import com.kashif.kmmnewsapp.data.local.dao.HeadlineDAO
-import com.kashif.kmmnewsapp.data.local.service.AbstractRealmService
-import com.kashif.kmmnewsapp.data.local.service.ImplRealmService
-import com.kashif.kmmnewsapp.data.remote.service.AbstractKtorService
-import com.kashif.kmmnewsapp.data.remote.service.ImplKtorService
-import com.kashif.kmmnewsapp.data.repository.AbstractRepository
-import com.kashif.kmmnewsapp.data.repository.ImplRepository
-import com.kashif.kmmnewsapp.domain.usecase.GetHeadlinesUseCase
-import com.kashif.kmmnewsapp.domain.util.ResponseHandler
+import com.kashif.kmmnewsapp.domain.usecase.DummyUseCase
 import com.kashif.kmmnewsapp.platformModule
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -30,50 +22,20 @@ fun initKoin(
 ) =
     startKoin {
         appDeclaration()
-        modules(commonModule(enableNetworkLogs = enableNetworkLogs, baseUrl))
+        modules(commonModule(enableNetworkLogs = enableNetworkLogs, baseUrl), platformModule())
     }
 
 // called by iOS etc
-fun initKoin(baseUrl: String) = initKoin(enableNetworkLogs = true, baseUrl) {}
+fun initKoin(baseUrl: String) = initKoin(enableNetworkLogs = false, baseUrl) {}
 
-fun commonModule(enableNetworkLogs: Boolean, baseUrl: String) =
-    getUseCaseModule() + getDateModule(
-        enableNetworkLogs,
-        baseUrl
-    ) + platformModule() + getHelperModule()
-
-fun getHelperModule() = module {
+fun commonModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
 
     single {
-        ResponseHandler()
+        DummyUseCase()
     }
-}
-
-fun getDateModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
-
-    single<AbstractRepository> {
-        ImplRepository(
-            get(),
-            get()
-        )
-    }
-
-    single<AbstractKtorService> {
-        ImplKtorService(
-            get(),
-            baseUrl
-        )
-    }
-
-    single<AbstractRealmService> {
-        ImplRealmService(
-            get()
-        )
-    }
-
     single {
         Realm.open(
-            RealmConfiguration.Builder(schema = setOf(HeadlineDAO::class))
+            RealmConfiguration.Builder(schema = setOf(/*entities*/))
 
                 .build()
         )
@@ -91,13 +53,6 @@ fun getDateModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
 
 
 }
-
-fun getUseCaseModule() = module {
-    single {
-        GetHeadlinesUseCase(get(), get())
-    }
-}
-
 
 fun createHttpClient(
     httpClientEngine: HttpClientEngine,

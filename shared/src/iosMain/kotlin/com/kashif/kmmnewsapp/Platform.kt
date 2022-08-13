@@ -2,7 +2,7 @@ package com.kashif.kmmnewsapp
 
 
 
-import com.kashif.kmmnewsapp.presentation.home.HomeScreenViewModel
+import com.kashif.kmmnewsapp.presentation.screen.ScreenViewModel
 import io.ktor.client.engine.darwin.*
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -13,22 +13,19 @@ actual fun platformModule() = module {
         Darwin.create()
     }
 
-    //single or factory can be used to get a view-model object for swiftui
+    //single or factory can be used to get a viewmodel object for swiftui
 
     single {
-        HomeScreenViewModel(get())
+        ScreenViewModel()
     }
 }
 
 /**
  * viewmodels object implements koin component thus its able to get any
- * dependency that is listed in platform module we can call getHomeviewmodel()
- * in swift ui to get an object of HomeViewModel
+ * dependency that is listed in platform module we can call getScreenviewmodel()
+ * in swift ui to get an object of screenviewmodel
  */
 object ViewModels : KoinComponent {
-    fun getHomeViewModel() = get<HomeScreenViewModel>()
+    fun getScreenViewModel() = get<ScreenViewModel>()
 
 }
-
-
-actual interface CommonParcelable

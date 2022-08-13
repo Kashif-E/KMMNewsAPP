@@ -1,37 +1,28 @@
 package com.kashif.kmmnewsapp.android
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material.*
+import androidx.compose.material.MaterialTheme
+import androidx.compose.material.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.style.TextAlign
-import com.kashif.kmmnewsapp.android.ui.home.Home
-import com.kashif.kmmnewsapp.android.ui.theme.KmmNewsTheme
+import com.kashif.kmmnewsapp.android.theme.KmmNewsTheme
+import com.kashif.kmmnewsapp.presentation.screen.ScreenViewModel
+import org.koin.androidx.compose.get
 
 
 class MainActivity : ComponentActivity() {
-    @SuppressLint("UnusedMaterialScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         setContent {
             KmmNewsTheme {
-                Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-                    TopAppBar {
-
-                        Text(text = "KMM News App", style = MaterialTheme.typography.h3, textAlign = TextAlign.Center)
-
-                    }
-                }, scaffoldState = rememberScaffoldState()) {
-
-
-                    Home()
-
-
-                }
+                Screen()
             }
         }
 
@@ -39,3 +30,19 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@Composable
+fun Screen(viewModel: ScreenViewModel = get()) {
+
+    Column(
+        modifier = Modifier.fillMaxSize(),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+
+        Text(viewModel.getSharedMessage(),
+            color = MaterialTheme.colors.onSurface,
+            style = MaterialTheme.typography.h1
+        )
+
+    }
+}

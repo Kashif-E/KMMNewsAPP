@@ -12,11 +12,8 @@ import Foundation
 import shared
 
 
-
-public extension HomeScreenViewModel {
-    
-    func asObserveableObject() -> HomeScreenViewModelObservableObject{
-        return HomeScreenViewModelObservableObject(wrapped: self)
+public extension  ScreenViewModel {
+    func asObservableObject() -> ScreenViewModelObservableObject {
+        return  ScreenViewModelObservableObject(wrapped: self)
     }
-    
 }

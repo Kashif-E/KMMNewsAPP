@@ -7,7 +7,7 @@ struct iOSApp: App {
      you can also initialise koin using an app delegate
      */
     init(){
-        KoinModuleKt.doInitKoin(baseUrl: "https://newsapi.org/v2")
+        KoinModuleKt.doInitKoin(baseUrl: "your base url")
     }
 	var body: some Scene {
 		WindowGroup {

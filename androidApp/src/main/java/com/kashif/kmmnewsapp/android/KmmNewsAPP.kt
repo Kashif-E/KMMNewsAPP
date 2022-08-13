@@ -11,7 +11,7 @@ class KmmNewsAPP : Application(){
     override fun onCreate() {
         super.onCreate()
 
-        initKoin(baseUrl = "https://newsapi.org/v2/", enableNetworkLogs = BuildConfig.DEBUG) {
+        initKoin(baseUrl = "Your Base Url", enableNetworkLogs = BuildConfig.DEBUG) {
             androidContext(this@KmmNewsAPP)
             // androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.INFO)
             modules(
