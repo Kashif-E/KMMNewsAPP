@@ -1,6 +1,6 @@
 package com.kashif.kmmnewsapp.data.remote.dto
 
-import com.kashif.kmmnewsapp.domain.domain_model.ArticleDomainModel
+import com.kashif.kmmnewsapp.domain.domain_model.HeadlineDomainModel
 
 
 
@@ -41,9 +41,9 @@ data class Article(
     val urlToImage: String? = ""
 )
 
-fun List<Article>.asDomainModel(): List<ArticleDomainModel> {
+fun List<Article>.asDomainModel(): List<HeadlineDomainModel> {
     return map {
-        ArticleDomainModel(
+        HeadlineDomainModel(
             author = it.author?: "Anonymous",
             content = it.content?:"",
             description = it.description?:"Click to see details",
