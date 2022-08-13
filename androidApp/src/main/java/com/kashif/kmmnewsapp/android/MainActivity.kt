@@ -2,7 +2,6 @@ package com.kashif.kmmnewsapp.android
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.kashif.kmmnewsapp.Greeting
 import android.widget.TextView
 
 fun greet(): String {
