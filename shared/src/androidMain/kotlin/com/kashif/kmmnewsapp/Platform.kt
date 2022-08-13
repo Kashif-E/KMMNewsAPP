@@ -30,7 +30,9 @@ actual fun platformModule() = module {
      */
 
    viewModel {
-       HomeScreenViewModel()
+       HomeScreenViewModel(
+           get()
+       )
    }
 
 

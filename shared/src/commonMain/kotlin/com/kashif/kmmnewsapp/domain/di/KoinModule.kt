@@ -8,6 +8,7 @@ import com.kashif.kmmnewsapp.data.remote.service.ImplKtorService
 import com.kashif.kmmnewsapp.data.repository.AbstractRepository
 import com.kashif.kmmnewsapp.data.repository.ImplRepository
 import com.kashif.kmmnewsapp.domain.usecase.GetHeadlinesUseCase
+import com.kashif.kmmnewsapp.domain.util.ResponseHandler
 import com.kashif.kmmnewsapp.platformModule
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -36,8 +37,17 @@ fun initKoin(
 fun initKoin(baseUrl: String) = initKoin(enableNetworkLogs = false, baseUrl) {}
 
 fun commonModule(enableNetworkLogs: Boolean, baseUrl: String) =
-    getUseCaseModule() + getDateModule(enableNetworkLogs, baseUrl) + platformModule()
+    getUseCaseModule() + getDateModule(
+        enableNetworkLogs,
+        baseUrl
+    ) + platformModule() + getHelperModule()
 
+fun getHelperModule() = module {
+
+    single {
+        ResponseHandler()
+    }
+}
 
 fun getDateModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
 
@@ -84,7 +94,7 @@ fun getDateModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
 
 fun getUseCaseModule() = module {
     single {
-        GetHeadlinesUseCase(get())
+        GetHeadlinesUseCase(get(), get())
     }
 }
 

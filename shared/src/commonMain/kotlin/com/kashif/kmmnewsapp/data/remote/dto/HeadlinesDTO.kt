@@ -1,9 +1,10 @@
 package com.kashif.kmmnewsapp.data.remote.dto
 
 import com.kashif.kmmnewsapp.domain.domain_model.HeadlineDomainModel
+import com.kashif.kmmnewsapp.domain.util.toLocalDate
 
 
-
+@kotlinx.serialization.Serializable
 data class HeadlinesDTO(
 
     val articles: List<Article>,
@@ -11,15 +12,15 @@ data class HeadlinesDTO(
 
 )
 
-
+@kotlinx.serialization.Serializable
 data class Source(
 
-    val id: Any? = "",
+    val id: String? = "",
 
     val name: String
 )
 
-
+@kotlinx.serialization.Serializable
 data class Article(
 
     val author: String? = "Anonymous",
@@ -45,7 +46,7 @@ fun HeadlinesDTO.asDomainModel(): List<HeadlineDomainModel> {
                author = it.author?: "Anonymous",
                content = it.content?:"",
                description = it.description?:"Click to see details",
-               publishedAt = it.publishedAt,
+               publishedAt = toLocalDate(it.publishedAt),
                source = it.source.name,
                title = it.title,
                urlToImage = it.urlToImage?:"",

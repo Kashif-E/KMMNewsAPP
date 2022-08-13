@@ -23,6 +23,9 @@ class ImplKtorService(
         return try {
             DataState.Success(httpClient.get("$baseUrl/${EndPoints.HEADLINES}") {
                 header("x-api-key", apikey)
+                parameter("country", country)
+                parameter("pageSize", pageSize)
+                parameter("page", page)
             }.body())
         } catch (e: RedirectResponseException) {
             // 3xx - responses

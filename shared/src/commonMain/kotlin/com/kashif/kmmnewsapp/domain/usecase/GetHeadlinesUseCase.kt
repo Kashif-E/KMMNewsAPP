@@ -13,7 +13,7 @@ class GetHeadlinesUseCase(
 
     operator fun invoke(page: Int, pageSize: Int = 20, country: String = "us") = flow {
 
-        val response = repository.getAllHeadlines(page, pageSize, country)
+        val response = repository.getAllHeadlines(page=page, pageSize=pageSize, country= country)
 
 
         emit(responsehandler.handleSuccess(response.data?.asDomainModel()))
