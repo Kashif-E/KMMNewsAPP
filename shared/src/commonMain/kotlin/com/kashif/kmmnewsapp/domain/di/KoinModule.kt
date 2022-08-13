@@ -1,6 +1,6 @@
 package com.kashif.kmmnewsapp.domain.di
 
-import com.kashif.kmmnewsapp.domain.usecase.DummyUseCase
+import com.kashif.kmmnewsapp.domain.usecase.GetHeadlinesUseCase
 import com.kashif.kmmnewsapp.platformModule
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -31,7 +31,7 @@ fun initKoin(baseUrl: String) = initKoin(enableNetworkLogs = false, baseUrl) {}
 fun commonModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
 
     single {
-        DummyUseCase()
+        GetHeadlinesUseCase()
     }
     single {
         Realm.open(
