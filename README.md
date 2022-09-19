@@ -39,7 +39,7 @@ kotlin.native.binary.memoryModel=experimental
 ## News APP
 In the news app branch, its a sample app built using the template in the main app. 
 
-I have used newsapi.org (News Api) to build the app to demonstrate how everything shoudl be layed out in order to build the app.
+I have used newsapi.org (News Api) to build the app to demonstrate how everything should be layed out in order to build the app.
 
 Here's a screenshot of how it looks. You can alwasy clone and check by yourself.
 

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="back">back</string>
+    <string name="news_details">News Details</string>
+    <string name="read_later">Read later</string>
+    <string name="app_heading">KMM News</string>
+</resources>

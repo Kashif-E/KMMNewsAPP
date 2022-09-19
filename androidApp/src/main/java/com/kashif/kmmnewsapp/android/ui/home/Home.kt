@@ -1,5 +1,6 @@
 package com.kashif.kmmnewsapp.android.ui.home
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -13,20 +14,49 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import coil.size.Scale
+import com.kashif.kmmnewsapp.android.R
+import com.kashif.kmmnewsapp.android.ui.destinations.NewsDetailsScreenDestination
 import com.kashif.kmmnewsapp.domain.domain_model.HeadlineDomainModel
 import com.kashif.kmmnewsapp.presentation.home.HomeScreenSideEffects
 import com.kashif.kmmnewsapp.presentation.home.HomeScreenViewModel
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
+import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import org.koin.androidx.compose.get
 
 
+@RootNavGraph(start = true)
+@Destination
 @Composable
-fun Home(viewModel: HomeScreenViewModel = get()) {
+fun HomeScreen(destinationsNavigator: DestinationsNavigator) {
+    Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
+        TopAppBar {
+
+            Text(
+                text = stringResource(id = R.string.app_heading),
+                style = MaterialTheme.typography.h3,
+                textAlign = TextAlign.Center
+            )
+
+        }
+    }, scaffoldState = rememberScaffoldState()) {it
+
+        Home(navigator = destinationsNavigator)
+
+
+    }
+}
+
+@Composable
+private fun Home(viewModel: HomeScreenViewModel = get(), navigator: DestinationsNavigator) {
 
 
     LaunchedEffect(key1 = 1) {
@@ -66,7 +96,9 @@ fun Home(viewModel: HomeScreenViewModel = get()) {
                         }, contentType = {
                             it::class.java
                         }) { item ->
-                            HeadLinesCard(item)
+                            HeadLinesCard(item = item, modifier = Modifier.clickable {
+                                navigator.navigate(NewsDetailsScreenDestination(headline = item))
+                            })
 
                         }
 
@@ -96,10 +128,10 @@ fun Home(viewModel: HomeScreenViewModel = get()) {
 
 
 @Composable
-fun HeadLinesCard(item: HeadlineDomainModel) {
+fun HeadLinesCard(item: HeadlineDomainModel, modifier: Modifier= Modifier) {
 
     Card(
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .wrapContentHeight(),
         shape = MaterialTheme.shapes.large,
@@ -168,7 +200,7 @@ fun HeadLinesCard(item: HeadlineDomainModel) {
                 text = item.description,
                 color = MaterialTheme.colors.onSurface,
                 style = MaterialTheme.typography.h6.copy(fontWeight = FontWeight.Bold),
-                modifier = Modifier.padding(start = 16.dp , end = 16.dp, top = 8.dp, bottom = 16.dp)
+                modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 8.dp, bottom = 16.dp)
             )
 
 
@@ -191,6 +223,9 @@ fun HomePreview() {
             "bbc",
             "vv",
             "vv"
-        )
+        ),
+        modifier = Modifier.clickable {
+
+        }
     )
 }
