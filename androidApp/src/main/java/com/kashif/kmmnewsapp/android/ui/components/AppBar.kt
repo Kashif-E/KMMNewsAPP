@@ -19,7 +19,7 @@ fun AppBar(
     backPressed: () -> Unit
 ) {
 
-    TopAppBar(modifier = Modifier, elevation = 1.dp, title = {
+    TopAppBar(modifier = modifier, elevation = 1.dp, title = {
 
         Text(
             text = title,
