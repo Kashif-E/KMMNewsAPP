@@ -12,9 +12,13 @@ import shared
 struct Screen: View {
     
     @ObservedObject var viewmodel = ViewModels().getHomeViewModel().asObserveableObject()
+    
+    @State var news: HeadlineDomainModel = HeadlineDomainModel(author: "", content: "", description: "", publishedAt: "", source: "", title: "", url: "", urlToImage: "")
+    
+    @State var moveToWebView = false
     var body: some View {
         
-        ZStack(){
+        VStack{
             
            
             switch true {
@@ -37,13 +41,13 @@ struct Screen: View {
                     ForEach(viewmodel.state.headlines , id: \.title){ item in
                         HeadlineRow( headline: item,onclick: {
                             
-                            print("==> ")
+                            self.news = item
+                            moveToWebView.toggle()
                             
                         })
                     }
 
                 }.frame( maxWidth: .infinity)
-                    .edgesIgnoringSafeArea(.all)
                     .listStyle(PlainListStyle())
                 
                 
@@ -60,7 +64,7 @@ struct Screen: View {
             }
         }.onAppear(perform: {
             viewmodel.viewModel.onIntent(intent: HomeScreenSideEffects.GetHeadlines())
-        })
+        }).navigate(to: NewsDetails(headline: news), when: $moveToWebView, title: "Headlines", bar: false, navigationTitle: news.source )
       
         
         

@@ -25,14 +25,8 @@ struct  HeadlineRow: View {
        
     }
     var body: some View {
-        
-        VStack(spacing:8) {
-           
-            ZStack{
-                RoundedRectangle(cornerRadius: 12, style: .continuous)
-                    .fill(.white).frame(width: .infinity, height: 400).shadow(radius:  2)
                 
-                VStack(alignment: HorizontalAlignment.center){
+                VStack(alignment: HorizontalAlignment.center, spacing: 12){
                   
                                    if #available(iOS 15.0, *) {
                                        AsyncImage(url: URL(string: headline.urlToImage),
@@ -103,13 +97,16 @@ struct  HeadlineRow: View {
                                
                                    
                                }
+                }.background(
+                    RoundedRectangle(cornerRadius: 12, style: .continuous)
+                        .fill(.white).shadow(radius:  2)
+                ).onTapGesture {
+                    onclick()
                 }
-           
-               
-            }
+            
         }
     }
-}
+
 
 
 

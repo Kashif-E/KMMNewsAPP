@@ -14,16 +14,16 @@ extension View {
     /// - Parameters:
     ///   - view: View to navigate to.
     ///   - binding: Only navigates when this condition is `true`.
-    func navigate<NewView: View>(to view: NewView, when binding: Binding<Bool>, title: String = "" , bar : Bool = true ) -> some View {
+    func navigate<NewView: View>(to view: NewView, when binding: Binding<Bool>, title: String = "Headlines" , bar : Bool = true , navigationTitle: String = "") -> some View {
         NavigationView {
             ZStack {
                 self
                     .navigationBarTitle(title)
-                    .navigationBarHidden(true)
+                    .navigationBarHidden(false)
 
                 NavigationLink(
                     destination: view
-                        .navigationBarTitle("")
+                        .navigationBarTitle(navigationTitle)
                         .navigationBarTitleDisplayMode(.inline)
                         .navigationBarHidden(bar).foregroundColor(Color.black),
                     isActive: binding
