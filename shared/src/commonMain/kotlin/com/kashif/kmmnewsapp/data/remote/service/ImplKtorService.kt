@@ -18,37 +18,12 @@ class ImplKtorService(
         page: Int,
         country: String,
 
-    ): DataState<HeadlinesDTO> {
-
-        return try {
-            DataState.Success(httpClient.get("$baseUrl/${EndPoints.HEADLINES}") {
-                header("x-api-key", apikey)
-                parameter("country", country)
-                parameter("pageSize", pageSize)
-                parameter("page", page)
-            }.body())
-        } catch (e: RedirectResponseException) {
-            // 3xx - responses
-            println("Error: ${e.response.status.description}")
-            DataState.Error(DataState.CustomMessages.ExceptionMessage(e.response.status.description))
-        } catch (e: ClientRequestException) {
-            // 4xx - responses
-            println("Error: ${e.response.status.description}")
-            DataState.Error(DataState.CustomMessages.ExceptionMessage(e.response.status.description))
-        } catch (e: ServerResponseException) {
-            // 5xx - responses
-            DataState.Error(DataState.CustomMessages.ExceptionMessage(e.response.status.description))
-        } catch (e: Exception) {
-            println("Error: ${e.message}")
-            DataState.Error(
-                DataState.CustomMessages.ExceptionMessage(
-                    e.message ?: "Something went wrong"
-                )
-            )
-        }
-
-
+    ): HeadlinesDTO = httpClient.get("$baseUrl/${EndPoints.HEADLINES}") {
+        header("x-api-key", apikey)
+        parameter("country", country)
+        parameter("pageSize", pageSize)
+        parameter("page", page)
+    }.body()
 
     }
 
-}
