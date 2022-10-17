@@ -1,10 +1,8 @@
 package com.kashif.kmmnewsapp.data.remote.service
 
 import com.kashif.kmmnewsapp.data.remote.dto.HeadlinesDTO
-import com.kashif.kmmnewsapp.domain.util.DataState
 import io.ktor.client.*
 import io.ktor.client.call.*
-import io.ktor.client.plugins.*
 import io.ktor.client.request.*
 
 class ImplKtorService(

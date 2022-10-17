@@ -2,6 +2,8 @@ package com.kashif.kmmnewsapp.presentation.home
 
 import com.kashif.kmmnewsapp.domain.domain_model.HeadlineDomainModel
 
+
+
 data class HomeScreenState(
     val isLoading: Boolean = true,
     val headlines: List<HeadlineDomainModel> = emptyList(),

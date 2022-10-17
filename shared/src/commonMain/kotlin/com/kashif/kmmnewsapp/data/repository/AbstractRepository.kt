@@ -1,7 +1,7 @@
 package com.kashif.kmmnewsapp.data.repository
 
 import com.kashif.kmmnewsapp.data.remote.dto.HeadlinesDTO
-import com.kashif.kmmnewsapp.domain.util.DataState
+
 
 abstract class AbstractRepository {
 
@@ -11,5 +11,5 @@ abstract class AbstractRepository {
         page: Int,
         pageSize: Int,
         country: String
-    ): DataState<HeadlinesDTO>
+    ): HeadlinesDTO
 }
