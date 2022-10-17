@@ -3,16 +3,13 @@ package com.kashif.kmmnewsapp.presentation.home
 import com.kashif.kmmnewsapp.domain.domain_model.HeadlineDomainModel
 
 
+sealed interface HomeScreenState{
 
-data class HomeScreenState(
-    val isLoading: Boolean = true,
-    val headlines: List<HeadlineDomainModel> = emptyList(),
-    val error: Error = Error(),
-    val isSuccess: Boolean = false,
-    val page: Int = 1
-)
+    object Loading: HomeScreenState
 
-data class Error(
-    val isError: Boolean = false,
-    val errorMessage: String = "Something went wrong."
-)
+    data class Success(val headlines: List<HeadlineDomainModel>) : HomeScreenState
+
+    data class Error(val errorMessage: String) : HomeScreenState
+
+}
+
