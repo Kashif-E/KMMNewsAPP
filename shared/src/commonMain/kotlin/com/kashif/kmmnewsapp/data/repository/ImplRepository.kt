@@ -1,5 +1,6 @@
 package com.kashif.kmmnewsapp.data.repository
 
+import com.kashif.kmmnewsapp.data.local.dao.HeadlineDAO
 import com.kashif.kmmnewsapp.data.local.service.AbstractRealmService
 import com.kashif.kmmnewsapp.data.remote.service.AbstractKtorService
 
@@ -20,6 +21,10 @@ class ImplRepository(
         country = country
 
     )
+
+    override suspend fun addToReadLater(headlineDAO: HeadlineDAO) {
+        realmService.addToReadLater(headlineDAO)
+    }
 
 }
 

@@ -27,7 +27,7 @@ import com.kashif.kmmnewsapp.android.ui.components.KmmNewsAPPTopBar
 import com.kashif.kmmnewsapp.android.ui.destinations.NewsDetailsScreenDestination
 import com.kashif.kmmnewsapp.android.ui.theme.KMMNewsTheme
 import com.kashif.kmmnewsapp.domain.domain_model.HeadlineDomainModel
-import com.kashif.kmmnewsapp.presentation.home.HomeScreenSideEffects
+import com.kashif.kmmnewsapp.presentation.home.HomeScreenSideEvent
 import com.kashif.kmmnewsapp.presentation.home.HomeScreenState
 import com.kashif.kmmnewsapp.presentation.home.HomeScreenViewModel
 import com.ramcosta.composedestinations.annotation.Destination
@@ -45,7 +45,7 @@ fun HomeScreen(
 ) {
 
     LaunchedEffect(key1 = Unit) {
-        viewModel.onIntent(HomeScreenSideEffects.GetHeadlines)
+        viewModel.onIntent(HomeScreenSideEvent.GetHeadlines)
     }
     val state by viewModel.state.collectAsState()
     Home(state, destinationsNavigator)

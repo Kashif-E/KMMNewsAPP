@@ -15,10 +15,10 @@ class HomeScreenViewModel(private val getHeadlinesUseCase: GetHeadlinesUseCase) 
     private val _state = MutableStateFlow<HomeScreenState>(HomeScreenState.Idle)
     var state = _state.asStateFlow()
     private var page: Int = 1
-    fun onIntent(intent: HomeScreenSideEffects) {
+    fun onIntent(intent: HomeScreenSideEvent) {
 
         when (intent) {
-            is HomeScreenSideEffects.GetHeadlines -> {
+            is HomeScreenSideEvent.GetHeadlines -> {
                 getHeadlines()
             }
         }
