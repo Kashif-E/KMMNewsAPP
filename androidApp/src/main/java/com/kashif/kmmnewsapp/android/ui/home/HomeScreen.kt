@@ -24,6 +24,7 @@ import coil.request.ImageRequest
 import coil.size.Scale
 import com.kashif.kmmnewsapp.android.R
 import com.kashif.kmmnewsapp.android.ui.components.KmmNewsAPPTopBar
+import com.kashif.kmmnewsapp.android.ui.destinations.NewsDetailsScreenDestination
 import com.kashif.kmmnewsapp.android.ui.theme.KMMNewsTheme
 import com.kashif.kmmnewsapp.domain.domain_model.HeadlineDomainModel
 import com.kashif.kmmnewsapp.presentation.home.HomeScreenSideEffects
@@ -47,12 +48,12 @@ fun HomeScreen(
         viewModel.onIntent(HomeScreenSideEffects.GetHeadlines)
     }
     val state by viewModel.state.collectAsState()
-    HomeScreen(state)
+    Home(state, destinationsNavigator)
 }
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
-private fun HomeScreen(state: HomeScreenState) {
+private fun Home(state: HomeScreenState, destinationsNavigator: DestinationsNavigator) {
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         KmmNewsAPPTopBar(
             titleRes = R.string.app_heading,
@@ -93,7 +94,7 @@ private fun HomeScreen(state: HomeScreenState) {
                 }
                 is HomeScreenState.Success -> {
 
-                    headlines(state.headlines)
+                    headlines(state.headlines, destinationsNavigator)
 
                 }
             }
@@ -104,9 +105,14 @@ private fun HomeScreen(state: HomeScreenState) {
 }
 
 
-fun LazyListScope.headlines(headlines: List<HeadlineDomainModel>) {
+fun LazyListScope.headlines(
+    headlines: List<HeadlineDomainModel>,
+    destinationsNavigator: DestinationsNavigator
+) {
     items(headlines) { item ->
-        HeadlinesCard(headlineDomainModel = item)
+        HeadlinesCard(headlineDomainModel = item, modifier = Modifier.clickable {
+            destinationsNavigator.navigate(NewsDetailsScreenDestination(item))
+        })
     }
 }
 
