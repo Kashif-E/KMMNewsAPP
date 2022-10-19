@@ -1,17 +1,20 @@
 package com.kashif.kmmnewsapp.presentation.home
 
 import com.kashif.kmmnewsapp.domain.usecase.GetHeadlinesUseCase
-import com.kashif.kmmnewsapp.domain.util.DataState
+import com.kashif.kmmnewsapp.domain.util.Result
+import com.kashif.kmmnewsapp.domain.util.asResult
 import dev.icerock.moko.mvvm.viewmodel.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class HomeScreenViewModel(private val getHeadlinesUseCase: GetHeadlinesUseCase) : ViewModel() {
 
-    var state = MutableStateFlow(HomeScreenState())
-
-
+    private val _state = MutableStateFlow<HomeScreenState>(HomeScreenState.Idle)
+    var state = _state.asStateFlow()
+    private var page: Int = 1
     fun onIntent(intent: HomeScreenSideEffects) {
 
         when (intent) {
@@ -25,43 +28,41 @@ class HomeScreenViewModel(private val getHeadlinesUseCase: GetHeadlinesUseCase) 
 
         viewModelScope.launch {
 
+            getHeadlinesUseCase.invoke(page = page).asResult().collectLatest { result ->
 
-            getHeadlinesUseCase.invoke(page = state.value.page).collectLatest { dataState ->
-
-                when (dataState) {
-                    is DataState.Success -> {
-
-                        state.emit(
-                            state.value.copy(
-                                isLoading = false,
-                                isSuccess = true,
-                                headlines = dataState.data ?: emptyList()
-                            )
-                        )
+                when (result) {
+                    is Result.Error -> {
+                        if (page == 1) {
+                            _state.update {
+                                HomeScreenState.Error(result.exception.message)
+                            }
+                        }
+                    }
+                    Result.Idle -> {
+                        if (page == 1) {
+                            _state.update {
+                                HomeScreenState.Idle
+                            }
+                        }
 
                     }
-                    is DataState.Error -> {
-
-                        state.emit(
-                            state.value.copy(
-                                isLoading = false,
-                                isSuccess = false,
-                                error = Error(true, dataState.error.message),
-                            )
-                        )
-
-
+                    Result.Loading -> {
+                        if (page == 1) {
+                            _state.update {
+                                HomeScreenState.Loading
+                            }
+                        }
                     }
-                    else -> {
-
-                        state.emit(
-                            state.value.copy(
-                                isLoading = false,
-                                isSuccess = false,
-                                error = Error(true, dataState.error.message),
-                            )
-                        )
-
+                    is Result.Success -> {
+                        if (page == 1) {
+                            _state.update {
+                                HomeScreenState.Success(result.data)
+                            }
+                        } else {
+                            _state.update {
+                                (it as HomeScreenState.Success).copy(it.headlines + result.data)
+                            }
+                        }
                     }
                 }
 

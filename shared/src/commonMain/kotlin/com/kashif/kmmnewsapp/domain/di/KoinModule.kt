@@ -8,7 +8,6 @@ import com.kashif.kmmnewsapp.data.remote.service.ImplKtorService
 import com.kashif.kmmnewsapp.data.repository.AbstractRepository
 import com.kashif.kmmnewsapp.data.repository.ImplRepository
 import com.kashif.kmmnewsapp.domain.usecase.GetHeadlinesUseCase
-import com.kashif.kmmnewsapp.domain.util.ResponseHandler
 import com.kashif.kmmnewsapp.platformModule
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -44,9 +43,7 @@ fun commonModule(enableNetworkLogs: Boolean, baseUrl: String) =
 
 fun getHelperModule() = module {
 
-    single {
-        ResponseHandler()
-    }
+
 }
 
 fun getDateModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
@@ -94,7 +91,7 @@ fun getDateModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
 
 fun getUseCaseModule() = module {
     single {
-        GetHeadlinesUseCase(get(), get())
+        GetHeadlinesUseCase(get())
     }
 }
 

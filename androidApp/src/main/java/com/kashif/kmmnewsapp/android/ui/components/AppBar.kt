@@ -1,43 +1,36 @@
 package com.kashif.kmmnewsapp.android.ui.components
 
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.material.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.annotation.StringRes
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.dp
-import com.kashif.kmmnewsapp.android.R
+import androidx.compose.ui.text.font.FontWeight
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppBar(
-    title: String,
+fun KmmNewsAPPTopBar(
     modifier: Modifier = Modifier,
-    backPressed: () -> Unit
-) {
+    @StringRes titleRes: Int,
+    navigationIcon: @Composable () -> Unit = {},
+    actionIcons: @Composable () -> Unit = {},
+    colors: TopAppBarColors = TopAppBarDefaults.centerAlignedTopAppBarColors(),
 
-    TopAppBar(modifier = modifier, elevation = 1.dp, title = {
-
-        Text(
-            text = title,
-            style = MaterialTheme.typography.h5,
-            textAlign = TextAlign.Start,
-            modifier = Modifier.fillMaxWidth()
-        )
-
-    }, backgroundColor = Color.White, navigationIcon = {
-
-        IconButton(onClick = { backPressed() }) {
-            Icon(
-                imageVector = Icons.Default.ArrowBack,
-                contentDescription = stringResource(id = R.string.back)
+    ) {
+    CenterAlignedTopAppBar(
+        title = {
+            Text(
+                text = stringResource(id = titleRes),
+                style = MaterialTheme.typography.headlineSmall.copy(fontWeight = FontWeight.Bold)
             )
-        }
-
-    })
-
-
+        },
+        navigationIcon = {
+            navigationIcon()
+        },
+        actions = {
+            actionIcons()
+        },
+        colors = colors,
+        modifier = modifier
+    )
 }

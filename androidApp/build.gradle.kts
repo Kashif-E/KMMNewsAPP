@@ -41,12 +41,16 @@ dependencies {
 
     with(ComposeDestination){
 
-        implementation(ComposeDestination.composeDestination)
-        ksp(ComposeDestination.composeDestinationPlugin)
+        implementation(composeDestination)
+        ksp(composeDestinationPlugin)
+    }
+    with(Material3){
+        implementation(material3)
+        implementation(window)
     }
     with(Accompanist){
         implementation(coil)
-        implementation(Accompanist.webview)
+        implementation(webview)
     }
     with(Compose){
         implementation(util){
@@ -56,9 +60,6 @@ dependencies {
             because("We are not using  xml its better to use compose activity ")
         }
 
-        implementation(composeMaterial) {
-            because("Supports material design components")
-        }
 
         implementation(composeToolingDebug){
             because("Supports preview of composables")
