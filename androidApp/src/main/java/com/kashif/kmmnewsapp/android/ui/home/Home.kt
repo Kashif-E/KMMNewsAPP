@@ -39,7 +39,7 @@ import org.koin.androidx.compose.getViewModel
 @RootNavGraph(start = true)
 @Destination
 @Composable
-fun HomeScreen(
+fun Home(
     destinationsNavigator: DestinationsNavigator,
     viewModel: HomeScreenViewModel = getViewModel()
 ) {
@@ -86,14 +86,12 @@ private fun Home(state: HomeScreenState, destinationsNavigator: DestinationsNavi
 
                 }
                 HomeScreenState.Idle -> {
-                    //TODO: Idle case
                 }
                 HomeScreenState.Loading -> {
                     placeholder()
 
                 }
                 is HomeScreenState.Success -> {
-
                     headlines(state.headlines, destinationsNavigator)
 
                 }

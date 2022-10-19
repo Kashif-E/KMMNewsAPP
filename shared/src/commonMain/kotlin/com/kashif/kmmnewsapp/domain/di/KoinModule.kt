@@ -7,7 +7,9 @@ import com.kashif.kmmnewsapp.data.remote.service.AbstractKtorService
 import com.kashif.kmmnewsapp.data.remote.service.ImplKtorService
 import com.kashif.kmmnewsapp.data.repository.AbstractRepository
 import com.kashif.kmmnewsapp.data.repository.ImplRepository
-import com.kashif.kmmnewsapp.domain.usecase.GetHeadlinesUseCase
+import com.kashif.kmmnewsapp.domain.usecase.newsdetails.AddToReadLaterUseCase
+import com.kashif.kmmnewsapp.domain.usecase.home.GetHeadlinesUseCase
+import com.kashif.kmmnewsapp.domain.usecase.readlater.GetReadLaterUseCase
 import com.kashif.kmmnewsapp.platformModule
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -90,6 +92,12 @@ fun getDateModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
 }
 
 fun getUseCaseModule() = module {
+    single {
+        AddToReadLaterUseCase(get())
+    }
+    single {
+        GetReadLaterUseCase(get())
+    }
     single {
         GetHeadlinesUseCase(get())
     }

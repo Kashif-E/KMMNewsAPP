@@ -1,6 +1,6 @@
 package com.kashif.kmmnewsapp.presentation.home
 
-import com.kashif.kmmnewsapp.domain.usecase.GetHeadlinesUseCase
+import com.kashif.kmmnewsapp.domain.usecase.home.GetHeadlinesUseCase
 import com.kashif.kmmnewsapp.domain.util.Result
 import com.kashif.kmmnewsapp.domain.util.asResult
 import dev.icerock.moko.mvvm.viewmodel.ViewModel

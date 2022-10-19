@@ -3,6 +3,7 @@ package com.kashif.kmmnewsapp
 
 import android.os.Parcelable
 import com.kashif.kmmnewsapp.presentation.home.HomeScreenViewModel
+import com.kashif.kmmnewsapp.presentation.newdetails.NewsDetailsViewModel
 import io.ktor.client.engine.android.*
 import kotlinx.parcelize.Parcelize
 import org.koin.androidx.viewmodel.dsl.viewModel
@@ -29,11 +30,15 @@ actual fun platformModule() = module {
      *
      */
 
-   viewModel {
-       HomeScreenViewModel(
-           get()
-       )
-   }
+    viewModel {
+        HomeScreenViewModel(
+            get()
+        )
+    }
+
+    viewModel {
+        NewsDetailsViewModel(get())
+    }
 
 
 }

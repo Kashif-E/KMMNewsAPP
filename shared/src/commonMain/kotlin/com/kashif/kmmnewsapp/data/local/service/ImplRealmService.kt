@@ -17,6 +17,6 @@ class ImplRealmService(private val realm: Realm) : AbstractRealmService() {
 
     }
 
-    override suspend fun getAllReadLaterHeadlines() =realm.query<HeadlineDAO>().find()
+    override suspend fun getReadLater() =realm.query<HeadlineDAO>().find()
 
 }

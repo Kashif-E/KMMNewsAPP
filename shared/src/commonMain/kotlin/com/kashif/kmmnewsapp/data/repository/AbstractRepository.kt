@@ -15,4 +15,5 @@ abstract class AbstractRepository {
     ): HeadlinesDTO
 
     abstract suspend fun addToReadLater(headlineDAO: HeadlineDAO)
+    abstract suspend fun getAllReadLater(): List<HeadlineDAO>
 }

@@ -26,6 +26,8 @@ class ImplRepository(
         realmService.addToReadLater(headlineDAO)
     }
 
+    override suspend fun getAllReadLater() = realmService.getReadLater()
+
 }
 
 

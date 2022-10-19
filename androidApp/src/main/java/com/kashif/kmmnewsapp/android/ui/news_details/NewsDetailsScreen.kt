@@ -1,4 +1,4 @@
-package com.kashif.kmmnewsapp.android.ui.details
+package com.kashif.kmmnewsapp.android.ui.news_details
 
 import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.*
@@ -9,7 +9,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
@@ -25,22 +25,39 @@ import com.google.accompanist.web.WebView
 import com.google.accompanist.web.WebViewState
 import com.google.accompanist.web.rememberWebViewState
 import com.kashif.kmmnewsapp.android.R
+import com.kashif.kmmnewsapp.android.ui.components.KmmNewsAPPDialog
 import com.kashif.kmmnewsapp.android.ui.components.KmmNewsAPPTopBar
 import com.kashif.kmmnewsapp.android.ui.theme.KMMNewsTheme
 import com.kashif.kmmnewsapp.domain.domain_model.HeadlineDomainModel
+import com.kashif.kmmnewsapp.presentation.newdetails.NewsDetailsScreenEvent
+import com.kashif.kmmnewsapp.presentation.newdetails.NewsDetailsScreenState
+import com.kashif.kmmnewsapp.presentation.newdetails.NewsDetailsViewModel
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 
+@SuppressLint("CoroutineCreationDuringComposition")
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 @Destination
 @Composable
-fun NewsDetailsScreen(destinationsNavigator: DestinationsNavigator, headline: HeadlineDomainModel) {
+fun NewsDetailsScreen(
+    destinationsNavigator: DestinationsNavigator,
+    headline: HeadlineDomainModel,
+    viewModel: NewsDetailsViewModel = getViewModel()
+) {
 
+    val state by viewModel.state.collectAsState()
+    var dialogState by remember {
+        mutableStateOf(false)
+    }
+    val snackbarHostState = remember { SnackbarHostState() }
+    val scope = rememberCoroutineScope()
 
     Scaffold(topBar = {
         KmmNewsAPPTopBar(titleRes = R.string.news_details, navigationIcon = {
-            IconButton(onClick = { destinationsNavigator.navigateUp() }) {
+            IconButton(onClick = { destinationsNavigator.popBackStack() }) {
 
                 Icon(
                     imageVector = Icons.Default.ArrowBack,
@@ -49,9 +66,11 @@ fun NewsDetailsScreen(destinationsNavigator: DestinationsNavigator, headline: He
 
             }
         })
+    }, snackbarHost = {
+        SnackbarHost(snackbarHostState)
     }, floatingActionButton = {
         FloatingActionButton(onClick = {
-
+            viewModel.onIntent(NewsDetailsScreenEvent.SaveForLater(headlineDomainModel = headline))
         }) {
             Icon(
                 imageVector = Icons.Default.Done,
@@ -75,6 +94,30 @@ fun NewsDetailsScreen(destinationsNavigator: DestinationsNavigator, headline: He
                 )
             })
 
+
+    }
+    Box(modifier = Modifier.fillMaxSize()) {
+        when (state) {
+            NewsDetailsScreenState.Idle -> {
+
+            }
+            NewsDetailsScreenState.SavingForLater -> {
+                KmmNewsAPPDialog(
+                    text = stringResource(id = R.string.adding_to_read_later),
+                    dialogState = dialogState
+                ) {
+                    dialogState = false
+                }
+            }
+            NewsDetailsScreenState.Success -> {
+                val message = stringResource(id = R.string.added_to_read_later)
+                scope.launch {
+                    snackbarHostState.showSnackbar(
+                        message = message
+                    )
+                }
+            }
+        }
     }
 
 
@@ -159,7 +202,7 @@ fun LazyListScope.headlineHeader(headline: HeadlineDomainModel, webviewState: We
 @Composable
 fun NewsDetailScreenAppBarPreview() {
     KMMNewsTheme() {
-       // NewsDetails(HeadlineDomainModel())
+        // NewsDetails(HeadlineDomainModel())
     }
 
 }

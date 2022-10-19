@@ -1,4 +1,4 @@
-package com.kashif.kmmnewsapp.domain.usecase
+package com.kashif.kmmnewsapp.domain.usecase.home
 
 import com.kashif.kmmnewsapp.data.remote.dto.asDomainModel
 import com.kashif.kmmnewsapp.data.repository.AbstractRepository
