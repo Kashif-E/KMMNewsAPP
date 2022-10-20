@@ -24,7 +24,7 @@ extension View {
                 NavigationLink(
                     destination: view
                         .navigationBarTitle(navigationTitle)
-                        .navigationBarTitleDisplayMode(.inline)
+                        .navigationBarTitleDisplayMode(.automatic)
                         .navigationBarHidden(bar).foregroundColor(Color.black),
                     isActive: binding
                 ) {

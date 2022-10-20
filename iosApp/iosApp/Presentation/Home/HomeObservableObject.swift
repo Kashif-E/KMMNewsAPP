@@ -9,11 +9,10 @@
 import Foundation
 import Combine
 import shared
-public class HomeScreenViewModelObservableObject : ObservableObject {
+public class HomeObservableObject : ObservableObject {
     
     var viewModel : HomeScreenViewModel
-
-
+    
    /**
     *
     * state flow acts as a state for swift ui here
@@ -37,5 +36,17 @@ public class HomeScreenViewModelObservableObject : ObservableObject {
     }
     
 
+    
+}
+
+
+
+
+
+public extension HomeScreenViewModel {
+    
+    func asObserveableObject() -> HomeObservableObject{
+        return HomeObservableObject(wrapped: self)
+    }
     
 }

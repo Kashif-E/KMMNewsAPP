@@ -1,17 +1,17 @@
 //
-//  Screen.swift
+//  ReadLaterScreen.swift
 //  iosApp
 //
-//  Created by Kashif Work on 13/08/2022.
+//  Created by Kashif Work on 20/10/2022.
 //  Copyright © 2022 orgName. All rights reserved.
 //
 
 import SwiftUI
 import shared
 
-struct HomeScreen: View {
+struct ReadLaterScreen: View {
     
-    @ObservedObject var state = ViewModels().getHomeViewModel().asObserveableObject()
+    @ObservedObject var state = ViewModels().getReadLaterViewModel().asObserveableObject()
     
     @State var news: HeadlineDomainModel = HeadlineDomainModel(author: "", content: "", description: "", publishedAt: "", source: "", title: "", url: "", urlToImage: "")
     
@@ -19,27 +19,27 @@ struct HomeScreen: View {
     
     var body: some View {
         
-        NavigationView {
+            
+            
             VStack{
-                
-                
+               
                 switch state.state {
                     
-                case is HomeScreenStateError:
+                case is ReadLaterStateError:
                     
                     
                     
-                    Text((state.state as! HomeScreenStateError).errorMessage)
+                    Text((state.state as! ReadLaterStateError).message)
                     
                     
                     
                     
                     
-                case is HomeScreenStateSuccess:
+                case is ReadLaterStateSuccess:
                     
                     List{
                         
-                        ForEach((state.state as! HomeScreenStateSuccess).headlines , id: \.title){ item in
+                        ForEach((state.state as! ReadLaterStateSuccess).headlines , id: \.title){ item in
                             HeadlineRow( headline: item,onclick: {
                                  self.news = item
                                  moveToWebView.toggle()
@@ -54,7 +54,7 @@ struct HomeScreen: View {
                     
                     
                     
-                case is HomeScreenStateLoading:
+                case is ReadLaterStateLoading:
                     
                     ProgressView()
                     
@@ -64,30 +64,13 @@ struct HomeScreen: View {
                     
                     
                 }
-            }.onAppear(perform: {
-                state.viewModel.onIntent(intent: HomeScreenSideEvent.GetHeadlines())
-            }).navigationBarTitleDisplayMode(.large)
-                .toolbar {
-                    ToolbarItem(placement: .principal) {
-                        VStack {
-                            Text("Headlines").font(.headline)
-                            
-                        }
-                    }
-                    
-                    ToolbarItem(placement: .primaryAction) {
-                     NavigationLink(destination: ReadLaterScreen()) {
-                            Image(systemName: "bookmark.circle.fill")
-                        }.buttonStyle(PlainButtonStyle())
-                        
-                    }
-                }
+            }
         }
     }
-}
 
-struct Screen_Previews: PreviewProvider {
+
+struct ReadLaterScreen_Previews: PreviewProvider {
     static var previews: some View {
-        HomeScreen()
+        ReadLaterScreen()
     }
 }
