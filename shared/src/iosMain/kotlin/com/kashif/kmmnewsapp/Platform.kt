@@ -22,7 +22,7 @@ actual fun platformModule() = module {
     factory {
         NewsDetailsViewModel(get())
     }
-    single {
+    factory {
         ReadLaterViewModel(get())
     }
 }
