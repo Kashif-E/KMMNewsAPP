@@ -6,6 +6,9 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -15,6 +18,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,6 +29,7 @@ import coil.size.Scale
 import com.kashif.kmmnewsapp.android.R
 import com.kashif.kmmnewsapp.android.ui.components.KmmNewsAPPTopBar
 import com.kashif.kmmnewsapp.android.ui.destinations.NewsDetailsScreenDestination
+import com.kashif.kmmnewsapp.android.ui.destinations.ReadLaterScreenDestination
 import com.kashif.kmmnewsapp.android.ui.theme.KMMNewsTheme
 import com.kashif.kmmnewsapp.domain.domain_model.HeadlineDomainModel
 import com.kashif.kmmnewsapp.presentation.home.HomeScreenSideEvent
@@ -40,8 +45,7 @@ import org.koin.androidx.compose.getViewModel
 @Destination
 @Composable
 fun Home(
-    destinationsNavigator: DestinationsNavigator,
-    viewModel: HomeScreenViewModel = getViewModel()
+    destinationsNavigator: DestinationsNavigator, viewModel: HomeScreenViewModel = getViewModel()
 ) {
 
     LaunchedEffect(key1 = Unit) {
@@ -55,9 +59,11 @@ fun Home(
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalLayoutApi::class)
 private fun Home(state: HomeScreenState, destinationsNavigator: DestinationsNavigator) {
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
-        KmmNewsAPPTopBar(
-            titleRes = R.string.app_heading,
-        )
+        KmmNewsAPPTopBar(titleRes = R.string.app_heading, actionIcons = {
+            IconButton(onClick = { destinationsNavigator.navigate(ReadLaterScreenDestination()) }) {
+                Icon(imageVector = Icons.Default.List, contentDescription = null)
+            }
+        })
     }) { innerPadding ->
 
         val listState = rememberLazyListState()
@@ -104,8 +110,7 @@ private fun Home(state: HomeScreenState, destinationsNavigator: DestinationsNavi
 
 
 fun LazyListScope.headlines(
-    headlines: List<HeadlineDomainModel>,
-    destinationsNavigator: DestinationsNavigator
+    headlines: List<HeadlineDomainModel>, destinationsNavigator: DestinationsNavigator
 ) {
     items(headlines) { item ->
         HeadlinesCard(headlineDomainModel = item, modifier = Modifier.clickable {
