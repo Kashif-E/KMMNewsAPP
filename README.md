@@ -3,15 +3,10 @@
 <a href="https://www.buymeacoffee.com/kashifmehmood"><img src="https://img.buymeacoffee.com/button-api/?text=Buy me a coffee&emoji=&slug=kashifmehmood&button_colour=FFDD00&font_colour=000000&font_family=Cookie&outline_colour=000000&coffee_colour=ffffff" /></a>
 
 
+Here's a video of how it looks. You can alwasy clone and check by yourself.
 
-There are two branches
-1. Main
-2. News App 
+[Untitled.webm](https://user-images.githubusercontent.com/61690178/197214466-5e16ea33-abcc-4ed1-81fd-a9a74fe32065.webm)
 
-
-## Main
-
-The main branch is a complete template that you can clone and use to build the awesome app that you were thinking about when you opened this repository.
 ## What's shared?
 
 Everything, except the UI. 
@@ -24,6 +19,8 @@ What does it have?
 * Dependency injection is set up using "The Mighty KOIN". You just have to add you dependencies.
 connected with both ios and android.
 * Shared ViewModel with stateflow for managing states in jetpack compose and swift ui
+* Realm for local storage and caching
+* Naterial 3 for android UI theming
 
 
 Dont forget to enable the new memory model in you gradle properties
@@ -32,19 +29,12 @@ Dont forget to enable the new memory model in you gradle properties
 kotlin.native.binary.memoryModel=experimental
 ```
 
-## Main Template
-
-
 
 ## News APP
-In the news app branch, its a sample app built using the template in the main app. 
+
 
 I have used newsapi.org (News Api) to build the app to demonstrate how everything should be layed out in order to build the app.
-
-Here's a screenshot of how it looks. You can alwasy clone and check by yourself.
-
-<img width="1506" alt="Screenshot 2022-08-14 at 3 36 36 AM" src="https://user-images.githubusercontent.com/61690178/184515682-89cf8dee-6f90-45eb-bb7a-e8ca80a3a28e.png">
-
+You can communicate with the API to get news and also use Realm to add a news to readlater an available offline.
 
 ## KMM is Awesome <3 and continuously improving. If you found an issue or want to contribute feel free to contact <3 
 
