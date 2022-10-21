@@ -34,7 +34,7 @@ kotlin.native.binary.memoryModel=experimental
 
 ## Main Template
 
-<img width="1652" alt="Screenshot 2022-08-13 at 8 58 01 PM" src="https://user-images.githubusercontent.com/61690178/184502988-b0a7f50c-364a-4426-b619-05a260756e74.png">
+
 
 ## News APP
 In the news app branch, its a sample app built using the template in the main app. 
