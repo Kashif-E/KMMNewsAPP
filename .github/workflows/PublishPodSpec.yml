@@ -3,7 +3,7 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - "main"
+      - "kmm_bridge"
 jobs:
   call-kmmbridge-publish:
     uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6
