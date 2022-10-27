@@ -5,12 +5,13 @@ plugins {
     kotlin(KotlinPlugins.serialization) version "1.7.10"
     id(Realm.pluginId)
     id(KotlinPlugins.parcelize)
+    id("co.touchlab.faktory.kmmbridge") version "0.3.1"
+    `maven-publish`
 
 
 }
 
 version = "1.0"
-
 kotlin {
     android()
     iosX64()
@@ -109,6 +110,14 @@ kotlin {
             iosSimulatorArm64Test.dependsOn(this)
         }
     }
+}
+addGithubPackagesRepository()
+kmmbridge {
+    githubReleaseArtifacts()
+    githubReleaseVersions()
+    cocoapods("git@github.com:kashif-e/KmmNewsAppPodSpecs.git")
+    versionPrefix.set("0.3")
+
 }
 
 android {

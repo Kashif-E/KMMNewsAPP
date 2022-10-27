@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material.icons.filled.Done
@@ -49,6 +50,7 @@ fun NewsDetailsScreen(
 ) {
 
     val state by viewModel.state.collectAsState()
+
     var dialogState by remember {
         mutableStateOf(false)
     }
@@ -80,6 +82,9 @@ fun NewsDetailsScreen(
     }, floatingActionButtonPosition = FabPosition.End) { innerPadding ->
         val webviewState = rememberWebViewState(url = headline.url)
         val listState = rememberLazyListState()
+
+
+
         LazyColumn(modifier = Modifier
             .fillMaxSize()
             .padding(innerPadding)
