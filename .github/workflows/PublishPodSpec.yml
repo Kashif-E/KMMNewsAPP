@@ -1,13 +1,11 @@
-name: All Publish
+name: KMM Bridge/iOS Publish
 on:
   workflow_dispatch:
   push:
-   branches:
-     - "kmm_bridge"
+    branches:
+      - "main"
 jobs:
   call-kmmbridge-publish:
     uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6
-    with:
-      publishTask: kmmBridgePublish publishAndroidDebugPublicationToGitHubPackagesRepository publishAndroidReleasePublicationToGitHubPackagesRepository
     secrets:
-      PODSPEC_SSH_KEY: ${{ secrets.PODSPEC_SSH_KEY }}
+     PODSPEC_SSH_KEY: ${{ secrets.PODSPEC_SSH_KEY }}
