@@ -1,32 +1,12 @@
-name: KMMBridgeKickStart-iOS
-
+name: KMM Bridge/iOS Publish
 on:
   workflow_dispatch:
   push:
     branches:
-      - main
-  pull_request:
-    paths-ignore:
-      - "**.md"
-      - "*.png"
-      - docs
-      - app
-
+      - "kmm_bridge"
 jobs:
-  build:
-    runs-on: macos-latest
+  call-kmmbridge-publish:
+    uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6
+    secrets:
+     PODSPEC_SSH_KEY: ${{ secrets.PODSPEC_SSH_KEY }}
 
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: actions/setup-java@v3
-        with:
-          distribution: corretto
-          java-version: 11
-
-      - name: Build
-        run: ./gradlew :allshared:iosX64Test
-      call-kmmbridge-publish:
-        uses: touchlab/KMMBridgeGithubWorkflow/.github/workflows/faktorybuildbranches.yml@v0.6
-        secrets:
-          PODSPEC_SSH_KEY: ${{ secrets.PODSPEC_SSH_KEY }}

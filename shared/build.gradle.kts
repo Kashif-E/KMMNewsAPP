@@ -10,13 +10,13 @@ plugins {
 
 
 }
-
 version = "1.0"
 kotlin {
     android()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
+
 
 
     kotlin.targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java) {
