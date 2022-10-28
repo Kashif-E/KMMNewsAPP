@@ -116,7 +116,7 @@ kmmbridge {
     githubReleaseArtifacts()
     githubReleaseVersions()
     spm()
-    versionPrefix.set("0.1")
+    versionPrefix.set("0.5")
 
 }
 
