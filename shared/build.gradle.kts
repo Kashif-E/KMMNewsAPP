@@ -115,8 +115,8 @@ addGithubPackagesRepository()
 kmmbridge {
     githubReleaseArtifacts()
     githubReleaseVersions()
-    cocoapods("git@github.com:kashif-e/KmmNewsPodSpec.git")
-    versionPrefix.set("0.3")
+    spm()
+    versionPrefix.set("0.1.0")
 
 }
 
