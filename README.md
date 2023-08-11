@@ -39,7 +39,7 @@ kotlin.native.binary.memoryModel=experimental
 I have used newsapi.org (News Api) to build the app to demonstrate how everything should be layed out in order to build the app.
 You can communicate with the API to get news and also use Realm to add a news to readlater an available offline.
 
-## KMM is Awesome <3 and continuously improving. If you found an issue or want to contribute feel free to contact <3 
+## KMM is Awesome ❤️ and continuously improving. If you found an issue or want to contribute feel free to contact 🖤
 
 ```kotlin
 
