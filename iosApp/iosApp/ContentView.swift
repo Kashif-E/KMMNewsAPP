@@ -36,7 +36,7 @@ struct ContentView: View {
         Task {
             do {
                 for try await value in asyncSequence(for: viewModel.counterFlow) {
-                    counter = Int(value)
+                    counter = Int(truncating: value)
                 }
             } catch {
                 self.error = error.localizedDescription
@@ -45,7 +45,7 @@ struct ContentView: View {
         Task {
             do {
                 for try await value in asyncSequence(for: viewModel.doubledFlow) {
-                    doubled = Int(value)
+                    doubled = Int(truncating: value)
                 }
             } catch {
                 self.error = error.localizedDescription

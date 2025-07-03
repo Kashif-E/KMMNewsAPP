@@ -4,6 +4,7 @@ plugins {
     id("com.android.library")
     kotlin("plugin.serialization") version "2.2.0"
     kotlin("plugin.parcelize")
+    id("com.rickclephas.kmp.nativecoroutines") version "1.0.0-ALPHA-45"
 }
 
 version = "1.0"
@@ -39,6 +40,7 @@ kotlin {
                 implementation(libs.bundles.kotlinx)
                 api(libs.moko.mvvm.core)
                 implementation(libs.kotlinx.coroutines.core)
+                api("com.rickclephas.kmp:kmp-observableviewmodel-core:1.0.0-BETA-12")
             }
         }
         val commonTest by getting {
@@ -58,6 +60,17 @@ kotlin {
             }
         }
     }
+}
+
+kotlin.sourceSets.all {
+    languageSettings.optIn("kotlin.experimental.ExperimentalObjCName")
+    languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
+}
+
+nativeCoroutines {
+    // Optional: customize plugin behavior
+    // exposedSeverity = ExposedSeverity.ERROR
+    // suffix = "Native"
 }
 
 android {
