@@ -1,2 +1,8 @@
 ${PODS_ROOT}/Target Support Files/Pods-iosApp/Pods-iosApp-frameworks.sh
+${BUILT_PRODUCTS_DIR}/KMPNativeCoroutinesAsync/KMPNativeCoroutinesAsync.framework
+${BUILT_PRODUCTS_DIR}/KMPNativeCoroutinesCombine/KMPNativeCoroutinesCombine.framework
+${BUILT_PRODUCTS_DIR}/KMPNativeCoroutinesCore/KMPNativeCoroutinesCore.framework
+${BUILT_PRODUCTS_DIR}/KMPObservableViewModelCore/KMPObservableViewModelCore.framework
+${BUILT_PRODUCTS_DIR}/KMPObservableViewModelCoreObjC/KMPObservableViewModelCoreObjC.framework
+${BUILT_PRODUCTS_DIR}/KMPObservableViewModelSwiftUI/KMPObservableViewModelSwiftUI.framework
 ${PODS_ROOT}/../../shared/build/cocoapods/framework/shared.framework

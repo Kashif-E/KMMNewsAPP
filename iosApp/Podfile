@@ -2,4 +2,11 @@ target 'iosApp' do
   use_frameworks!
   platform :ios, '14.1'
   pod 'shared', :path => '../shared'
+
+  # KMP-NativeCoroutines (for Swift async/Combine interop)
+  pod 'KMPNativeCoroutinesAsync', '1.0.0-ALPHA-45'
+  pod 'KMPNativeCoroutinesCombine', '1.0.0-ALPHA-45'
+
+  # KMP-ObservableViewModel (for SwiftUI property wrappers)
+  pod 'KMPObservableViewModelSwiftUI', '1.0.0-BETA-12'
 end

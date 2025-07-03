@@ -1,0 +1,6 @@
+framework module KMPObservableViewModelCore {
+  umbrella header "KMPObservableViewModelCore-umbrella.h"
+
+  export *
+  module * { export * }
+}

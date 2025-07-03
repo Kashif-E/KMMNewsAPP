@@ -1,10 +1,14 @@
+ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
 CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
 ENABLE_USER_SCRIPT_SANDBOXING = NO
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/../../shared/build/cocoapods/framework"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/KMPNativeCoroutinesAsync" "${PODS_CONFIGURATION_BUILD_DIR}/KMPNativeCoroutinesCombine" "${PODS_CONFIGURATION_BUILD_DIR}/KMPNativeCoroutinesCore" "${PODS_CONFIGURATION_BUILD_DIR}/KMPObservableViewModelCore" "${PODS_CONFIGURATION_BUILD_DIR}/KMPObservableViewModelCoreObjC" "${PODS_CONFIGURATION_BUILD_DIR}/KMPObservableViewModelSwiftUI" "${PODS_ROOT}/../../shared/build/cocoapods/framework"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
-OTHER_LDFLAGS = $(inherited) -l"c++" -framework "shared"
-OTHER_MODULE_VERIFIER_FLAGS = $(inherited) "-F${PODS_CONFIGURATION_BUILD_DIR}/shared"
+HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/KMPNativeCoroutinesAsync/KMPNativeCoroutinesAsync.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/KMPNativeCoroutinesCombine/KMPNativeCoroutinesCombine.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/KMPNativeCoroutinesCore/KMPNativeCoroutinesCore.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/KMPObservableViewModelCore/KMPObservableViewModelCore.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/KMPObservableViewModelCoreObjC/KMPObservableViewModelCoreObjC.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/KMPObservableViewModelSwiftUI/KMPObservableViewModelSwiftUI.framework/Headers"
+LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/lib/swift '@executable_path/Frameworks' '@loader_path/Frameworks'
+LIBRARY_SEARCH_PATHS = $(inherited) "${TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}" /usr/lib/swift
+OTHER_LDFLAGS = $(inherited) -l"c++" -framework "Combine" -framework "KMPNativeCoroutinesAsync" -framework "KMPNativeCoroutinesCombine" -framework "KMPNativeCoroutinesCore" -framework "KMPObservableViewModelCore" -framework "KMPObservableViewModelCoreObjC" -framework "KMPObservableViewModelSwiftUI" -framework "SwiftUI" -framework "shared"
+OTHER_MODULE_VERIFIER_FLAGS = $(inherited) "-F${PODS_CONFIGURATION_BUILD_DIR}/KMPNativeCoroutinesAsync" "-F${PODS_CONFIGURATION_BUILD_DIR}/KMPNativeCoroutinesCombine" "-F${PODS_CONFIGURATION_BUILD_DIR}/KMPNativeCoroutinesCore" "-F${PODS_CONFIGURATION_BUILD_DIR}/KMPObservableViewModelCore" "-F${PODS_CONFIGURATION_BUILD_DIR}/KMPObservableViewModelCoreObjC" "-F${PODS_CONFIGURATION_BUILD_DIR}/KMPObservableViewModelSwiftUI" "-F${PODS_CONFIGURATION_BUILD_DIR}/shared"
+OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
