@@ -2,34 +2,25 @@ plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
-    kotlin(KotlinPlugins.serialization) version "1.7.10"
-    id(Realm.pluginId)
-    id(KotlinPlugins.parcelize)
-
-
+    kotlin("plugin.serialization") version "2.2.0"
+    kotlin("plugin.parcelize")
 }
 
 version = "1.0"
 
 kotlin {
-    android()
+    androidTarget()
     iosX64()
     iosArm64()
     iosSimulatorArm64()
 
-
     kotlin.targets.withType(org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget::class.java) {
-
         // export correct artifact to use all classes of library directly from Swift
-
         binaries.withType(org.jetbrains.kotlin.gradle.plugin.mpp.Framework::class.java).all {
-            export("dev.icerock.moko:mvvm-core:0.13.1")
-        }
-
-        binaries.all {
-            binaryOptions["memoryModel"] = "experimental"
+            export(libs.moko.mvvm.core)
         }
     }
+    
     cocoapods {
         summary = "Some description for the Shared Module"
         homepage = "Link to the Shared Module homepage"
@@ -43,79 +34,37 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                with(Ktor) {
-                    implementation(clientCore)
-                    implementation(clientJson)
-                    implementation(clientLogging)
-                    implementation(clientSerialization)
-                    implementation(contentNegotiation)
-                    implementation(json)
-                }
-                with(Realm) {
-                    implementation(realm)
-                }
-                with(Koin) {
-
-                    implementation(koin)
-                }
-                with(Kotlinx) {
-                    implementation(serializationCore)
-                    implementation(datetime)
-                }
-
-                with(Moko) {
-                    api(mokoMVVMCore)
-                }
-
-                with(Coroutines) {
-                    implementation(coroutines)
-                }
-
+                implementation(libs.bundles.ktor.common)
+                implementation(libs.koin.core)
+                implementation(libs.bundles.kotlinx)
+                api(libs.moko.mvvm.core)
+                implementation(libs.kotlinx.coroutines.core)
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test"))
+                implementation(libs.kotlin.test)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(Ktor.clientAndroid)
-                implementation(Koin.koinAndroid)
-
+                implementation(libs.ktor.client.android)
+                implementation(libs.koin.android)
             }
         }
-        val androidTest by getting
-        val iosX64Main by getting
-        val iosArm64Main by getting
-        val iosSimulatorArm64Main by getting
         val iosMain by creating {
-
             dependencies {
-                implementation(Ktor.clientIos)
+                implementation(libs.ktor.client.darwin)
             }
-            dependsOn(commonMain)
-            iosX64Main.dependsOn(this)
-            iosArm64Main.dependsOn(this)
-            iosSimulatorArm64Main.dependsOn(this)
-        }
-        val iosX64Test by getting
-        val iosArm64Test by getting
-        val iosSimulatorArm64Test by getting
-        val iosTest by creating {
-            dependsOn(commonTest)
-            iosX64Test.dependsOn(this)
-            iosArm64Test.dependsOn(this)
-            iosSimulatorArm64Test.dependsOn(this)
         }
     }
 }
 
 android {
-    compileSdk = 32
+    namespace = "com.kashif.kmmnewsapp"
+    compileSdk = libs.versions.compileSdk.get().toInt()
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
-        minSdk = 23
-        targetSdk = 32
+        minSdk = libs.versions.minSdk.get().toInt()
     }
 }

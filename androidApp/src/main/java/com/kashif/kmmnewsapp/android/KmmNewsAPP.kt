@@ -2,25 +2,12 @@ package com.kashif.kmmnewsapp.android
 
 import android.app.Application
 import com.kashif.kmmnewsapp.domain.di.initKoin
-import org.koin.android.ext.koin.androidContext
-import org.koin.dsl.module
 
-
-class KmmNewsAPP : Application(){
-
+class KmmNewsAPP : Application() {
     override fun onCreate() {
         super.onCreate()
-
-        initKoin(baseUrl = "https://newsapi.org/v2/", enableNetworkLogs = BuildConfig.DEBUG) {
-            androidContext(this@KmmNewsAPP)
-            // androidLogger(if (BuildConfig.DEBUG) Level.ERROR else Level.INFO)
-            modules(
-                listOf(module {
-                    /**
-                     * android specific modules
-                     */
-                })
-            )
+        initKoin(baseUrl = "https://newsapi.org/v2/") {
+            // You can add additional Koin modules or configurations here if needed
         }
     }
 }

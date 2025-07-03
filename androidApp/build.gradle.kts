@@ -1,16 +1,16 @@
 plugins {
     id("com.android.application")
     kotlin("android")
-    id("com.google.devtools.ksp") version "1.7.10-1.0.6"
-
+    alias(libs.plugins.compose.compiler)
 }
 
 android {
-    compileSdk = 33
+    namespace = "com.kashif.kmmnewsapp.android"
+    compileSdk = libs.versions.compileSdk.get().toInt()
     defaultConfig {
         applicationId = "com.kashif.kmmnewsapp.android"
-        minSdk = 23
-        targetSdk = 33
+        minSdk = libs.versions.minSdk.get().toInt()
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
     }
@@ -22,57 +22,30 @@ android {
     buildFeatures {
         compose = true
     }
-
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.3.0"
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
-
-    applicationVariants.all {
-        kotlin.sourceSets {
-            getByName(name) {
-                kotlin.srcDir("build/generated/ksp/$name/kotlin")
-            }
-        }
+    kotlinOptions {
+        jvmTarget = "17"
     }
 }
 
 dependencies {
     implementation(project(":shared"))
+    
+    // Material3
+    implementation(libs.bundles.material3)
+    
+    // Accompanist
+    implementation(libs.bundles.accompanist)
+    
+    // Compose
+    implementation(libs.compose.ui.util)
+    implementation(libs.compose.activity)
+    implementation(libs.compose.ui.tooling)
+    debugImplementation(libs.compose.ui.tooling)
+    implementation(libs.compose.ui)
 
-    with(ComposeDestination){
-
-        implementation(composeDestination)
-        ksp(composeDestinationPlugin)
-    }
-    with(Material3){
-        implementation(material3)
-        implementation(window)
-    }
-    with(Accompanist){
-        implementation(coil)
-        implementation(webview)
-    }
-    with(Compose){
-        implementation(util){
-
-        }
-        implementation(composeActivity) {
-            because("We are not using  xml its better to use compose activity ")
-        }
-
-
-        implementation(composeToolingDebug){
-            because("Supports preview of composables")
-        }
-
-        debugImplementation(composeToolingDebug) {
-
-            because("Supports previews and other tooling stuff." )
-        }
-        implementation(composeUI) {
-            because("Supports compose ")
-        }
-    }
-
-    implementation(Koin.koinAndroid)
+    implementation(libs.koin.android)
 }
