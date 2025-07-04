@@ -4,10 +4,7 @@ import org.koin.core.module.Module
 
 expect fun platformModule(): Module
 
-/**
- *
- * Common parcelable implementation for androis
- */
+
 
 @OptIn(ExperimentalMultiplatform::class)
 @OptionalExpectation

@@ -15,14 +15,7 @@ import org.koin.core.module.Module
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
-/**
- * Initialize Koin with optimal Swift interoperability
- *
- * This function is optimized for Swift usage with:
- * - Native default arguments support
- * - Enhanced function naming
- * - File scope conversion for easy access
- */
+
 @DefaultArgumentInterop.Enabled
 @FunctionInterop.FileScopeConversion.Enabled
 fun initKoin(
@@ -41,10 +34,7 @@ fun initKoin(
         )
     }
 
-/**
- * Simplified iOS-specific initializer
- * Optimized for Swift call site ergonomics
- */
+
 @FunctionInterop.FileScopeConversion.Enabled
 fun initKoin(baseUrl: String) = initKoin(enableNetworkLogs = true, baseUrl) {}
 
@@ -68,7 +58,7 @@ fun dataModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
         )
     }
 
-    // Provide SampleObservableViewModel with DI
+
     factory { com.kashif.kmmnewsapp.SampleObservableViewModel() }
 }
 

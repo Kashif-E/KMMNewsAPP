@@ -5,6 +5,6 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "counter")
 data class CounterEntity(
-    @PrimaryKey val id: Int = 0, // Always 0 for singleton
+    @PrimaryKey val id: Int = 0,
     val value: Int
 ) 

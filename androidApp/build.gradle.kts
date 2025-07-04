@@ -34,13 +34,13 @@ android {
 dependencies {
     implementation(project(":shared"))
     
-    // Material3
+
     implementation(libs.bundles.material3)
     
-    // Accompanist
+
     implementation(libs.bundles.accompanist)
     
-    // Compose
+
     implementation(libs.compose.ui.util)
     implementation(libs.compose.activity)
     implementation(libs.compose.ui.tooling)

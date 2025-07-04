@@ -6,9 +6,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.flow.*
 
-/**
- * flow extension to be used with combine framework in swift ui
- */
+
 
 
 fun Flow<*>.subscribe(
