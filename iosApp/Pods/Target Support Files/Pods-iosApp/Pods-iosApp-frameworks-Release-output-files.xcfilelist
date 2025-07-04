@@ -1,7 +1,0 @@
-${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPNativeCoroutinesAsync.framework
-${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPNativeCoroutinesCombine.framework
-${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPNativeCoroutinesCore.framework
-${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPObservableViewModelCore.framework
-${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPObservableViewModelCoreObjC.framework
-${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KMPObservableViewModelSwiftUI.framework
-${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/shared.framework
