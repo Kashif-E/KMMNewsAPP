@@ -10,19 +10,27 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
+import com.kashif.kmmnewsapp.core.database.DatabaseProvider
+import com.kashif.kmmnewsapp.core.database.CounterEntity
+import com.rickclephas.kmp.observableviewmodel.launch
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
+import org.koin.core.component.get
 
 /**
  * Sample Observable ViewModel with SKIE optimizations
- * 
+ *
  * This ViewModel is optimized for Swift usage with:
  * - Enhanced Flow interoperability (Swift AsyncSequence)
  * - Modern function naming conventions
  * - Optimal StateFlow handling
  */
-open class SampleObservableViewModel : ViewModel() {
-    
+open class SampleObservableViewModel() : ViewModel(), KoinComponent {
+    private val databaseProvider: DatabaseProvider = get()
+
     private val _counter = MutableStateFlow(viewModelScope, 0)
-    
+
     /**
      * Counter state optimized for Swift AsyncSequence usage
      * Will be accessible as AsyncSequence in Swift
@@ -39,6 +47,21 @@ open class SampleObservableViewModel : ViewModel() {
         .map { it * 2 }
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(), 0)
 
+    init {
+        viewModelScope.launch {
+            val db = databaseProvider.getDatabase()
+            val value = db.counterDao().getCounter() ?: 0
+            _counter.value = value
+        }
+        // Observe changes and persist
+        viewModelScope.launch {
+            counter.collect { value ->
+                val db = databaseProvider.getDatabase()
+                db.counterDao().setCounter(CounterEntity(value = value))
+            }
+        }
+    }
+
     /**
      * Increment function with Swift-optimized naming
      * Will have clean, idiomatic Swift method name
@@ -47,7 +70,7 @@ open class SampleObservableViewModel : ViewModel() {
     fun increment() {
         _counter.value = _counter.value + 1
     }
-    
+
     /**
      * Decrement function for completeness
      * Also optimized for Swift naming conventions
@@ -56,7 +79,7 @@ open class SampleObservableViewModel : ViewModel() {
     fun decrement() {
         _counter.value = _counter.value - 1
     }
-    
+
     /**
      * Reset function with default parameter
      * Demonstrates SKIE's default argument handling

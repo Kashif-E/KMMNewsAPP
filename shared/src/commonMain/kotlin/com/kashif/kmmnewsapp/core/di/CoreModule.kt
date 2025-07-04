@@ -67,6 +67,9 @@ fun dataModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
             enableNetworkLogs = enableNetworkLogs
         )
     }
+
+    // Provide SampleObservableViewModel with DI
+    factory { com.kashif.kmmnewsapp.SampleObservableViewModel() }
 }
 
 @FunctionInterop.FileScopeConversion.Enabled

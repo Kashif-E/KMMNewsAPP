@@ -13,33 +13,33 @@ struct ContentView: View {
             Text("SKIE-Optimized KMP Counter")
                 .font(.title2)
                 .padding(.top, 32)
-            
+
             Text("Counter: \(counter)")
                 .font(.title)
                 .foregroundColor(.primary)
-            
+
             Text("Doubled: \(doubled)")
                 .font(.body)
                 .foregroundColor(.secondary)
-            
+
             HStack(spacing: 16) {
                 Button("Decrement") {
                     viewModel.decrement()
                 }
                 .buttonStyle(.bordered)
-                
+
                 Button("Increment") {
                     viewModel.increment()
                 }
                 .buttonStyle(.borderedProminent)
-                
+
                 Button("Reset") {
                     // Uses SKIE default argument optimization
                     viewModel.reset()
                 }
                 .buttonStyle(.bordered)
             }
-            
+
             if let error = error {
                 Text("Error: \(error)")
                     .foregroundColor(.red)
@@ -47,7 +47,7 @@ struct ContentView: View {
                     .background(Color.red.opacity(0.1))
                     .cornerRadius(8)
             }
-            
+
             Spacer()
         }
         .padding()
@@ -73,7 +73,7 @@ struct ContentView: View {
                 }
             }
         }
-        
+
         Task {
             do {
                 // Another SKIE-optimized Flow observation

@@ -3,7 +3,6 @@ package com.kashif.kmmnewsapp
 
 import io.ktor.client.engine.darwin.*
 import org.koin.core.component.KoinComponent
-import org.koin.core.component.get
 import org.koin.dsl.module
 
 actual fun platformModule() = module {
@@ -12,7 +11,6 @@ actual fun platformModule() = module {
     }
 
 }
-
 
 
 actual interface CommonParcelable

@@ -26,15 +26,13 @@ class DatabaseProvider {
         database?.headlinesDao()?.clearAll()
     }
 
-    companion object {
-        private var instance: DatabaseProvider? = null
-        private val instanceMutex = Mutex()
+    private var instance: DatabaseProvider? = null
+    private val instanceMutex = Mutex()
 
-        suspend fun getInstance(): DatabaseProvider = instanceMutex.withLock(Dispatchers.IO) {
-            if (instance == null) {
-                instance = DatabaseProvider()
-            }
-            instance!!
+    suspend fun getInstance(): DatabaseProvider = instanceMutex.withLock(Dispatchers.IO) {
+        if (instance == null) {
+            instance = DatabaseProvider()
         }
+        instance!!
     }
 }

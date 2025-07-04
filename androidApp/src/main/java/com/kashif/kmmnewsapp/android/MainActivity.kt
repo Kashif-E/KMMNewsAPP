@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.kashif.kmmnewsapp.SampleObservableViewModel
+import org.koin.compose.koinInject
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CounterScreen() {
-    val viewModel = remember { SampleObservableViewModel() }
+    val viewModel: SampleObservableViewModel = koinInject()
     val counter by viewModel.counter.collectAsState()
     val doubled by viewModel.doubled.collectAsState()
 
