@@ -22,7 +22,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             MaterialTheme {
-                CounterScreen()
+                HeadlinesScreen()
             }
         }
     }
@@ -30,7 +30,7 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CounterScreen() {
+fun HeadlinesScreenX() {
     val viewModel: SampleObservableViewModel = koinInject()
     val counter by viewModel.counter.collectAsState()
     val doubled by viewModel.doubled.collectAsState()
@@ -67,8 +67,8 @@ fun CounterScreen() {
 
 @Preview
 @Composable
-fun PreviewCounterScreen() {
+fun PreviewHeadlinesScreen() {
     MaterialTheme {
-        CounterScreen()
+        HeadlinesScreen()
     }
 }

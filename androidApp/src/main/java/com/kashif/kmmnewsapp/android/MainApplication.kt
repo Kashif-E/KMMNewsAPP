@@ -9,7 +9,7 @@ class MainApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = this
-        initKoin(baseUrl = "https://newsapi.org/v2/") {
+        initKoin(baseUrl = "https://newsapi.org/v2/", enableNetworkLogs = true) {
             androidContext(this@MainApplication)
 
         }

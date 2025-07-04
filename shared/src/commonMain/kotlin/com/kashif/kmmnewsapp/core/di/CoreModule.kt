@@ -29,7 +29,7 @@ fun initKoin(
             listOf(
                 dataModule(enableNetworkLogs, baseUrl),
                 databaseModule(),
-                platformModule()
+                platformModule(),headlinesModule
             )
         )
     }
