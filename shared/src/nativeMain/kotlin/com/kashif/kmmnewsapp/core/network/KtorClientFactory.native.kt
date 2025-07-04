@@ -1,2 +1,2 @@
-package com.kashif.kmmnewsapp.core.network 
+package com.kashif.kmmnewsapp.core.network
 
