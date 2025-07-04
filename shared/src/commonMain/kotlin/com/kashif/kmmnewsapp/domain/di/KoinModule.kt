@@ -1,5 +1,7 @@
 package com.kashif.kmmnewsapp.domain.di
 
+import co.touchlab.skie.configuration.annotations.DefaultArgumentInterop
+import co.touchlab.skie.configuration.annotations.FunctionInterop
 import com.kashif.kmmnewsapp.platformModule
 import io.ktor.client.*
 import io.ktor.client.engine.*
@@ -11,6 +13,16 @@ import org.koin.core.context.startKoin
 import org.koin.dsl.KoinAppDeclaration
 import org.koin.dsl.module
 
+/**
+ * Initialize Koin with optimal Swift interoperability
+ * 
+ * This function is optimized for Swift usage with:
+ * - Native default arguments support
+ * - Enhanced function naming
+ * - File scope conversion for easy access
+ */
+@DefaultArgumentInterop.Enabled
+@FunctionInterop.FileScopeConversion.Enabled
 fun initKoin(
     enableNetworkLogs: Boolean = false,
     baseUrl: String,
@@ -21,15 +33,19 @@ fun initKoin(
         modules(commonModule(enableNetworkLogs = enableNetworkLogs, baseUrl))
     }
 
-// called by iOS etc
+/**
+ * Simplified iOS-specific initializer
+ * Optimized for Swift call site ergonomics
+ */
+@FunctionInterop.FileScopeConversion.Enabled
 fun initKoin(baseUrl: String) = initKoin(enableNetworkLogs = true, baseUrl) {}
 
+@FunctionInterop.FileScopeConversion.Enabled
 fun commonModule(enableNetworkLogs: Boolean, baseUrl: String) =
     dataModule(enableNetworkLogs, baseUrl) + platformModule()
 
+@FunctionInterop.FileScopeConversion.Enabled
 fun dataModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
-
-
     single { createJson() }
 
     single {
@@ -41,6 +57,7 @@ fun dataModule(enableNetworkLogs: Boolean, baseUrl: String) = module {
     }
 }
 
+@FunctionInterop.FileScopeConversion.Enabled
 fun createHttpClient(
     httpClientEngine: HttpClientEngine,
     json: Json,
@@ -59,5 +76,6 @@ fun createHttpClient(
         }
     }
 
+@FunctionInterop.FileScopeConversion.Enabled
 fun createJson() = Json { isLenient = true; ignoreUnknownKeys = true }
 

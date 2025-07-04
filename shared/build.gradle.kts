@@ -1,10 +1,18 @@
+import co.touchlab.skie.configuration.DefaultArgumentInterop
+import co.touchlab.skie.configuration.EnumInterop
+import co.touchlab.skie.configuration.FlowInterop
+import co.touchlab.skie.configuration.FunctionInterop
+import co.touchlab.skie.configuration.SealedInterop
+import co.touchlab.skie.configuration.SuspendInterop
+
 plugins {
     kotlin("multiplatform")
     kotlin("native.cocoapods")
     id("com.android.library")
     kotlin("plugin.serialization") version "2.2.0"
     kotlin("plugin.parcelize")
-    id("com.rickclephas.kmp.nativecoroutines") version "1.0.0-ALPHA-45"
+   // id("com.rickclephas.kmp.nativecoroutines") version "1.0.0-ALPHA-45"
+    id("co.touchlab.skie") version "0.10.4"
 }
 
 version = "1.0"
@@ -41,6 +49,9 @@ kotlin {
                 api(libs.moko.mvvm.core)
                 implementation(libs.kotlinx.coroutines.core)
                 api("com.rickclephas.kmp:kmp-observableviewmodel-core:1.0.0-BETA-12")
+                
+                // SKIE configuration annotations for fine-grained control
+                compileOnly("co.touchlab.skie:configuration-annotations:0.10.4")
             }
         }
         val commonTest by getting {
@@ -67,11 +78,12 @@ kotlin.sourceSets.all {
     languageSettings.optIn("kotlinx.cinterop.ExperimentalForeignApi")
 }
 
-nativeCoroutines {
-    // Optional: customize plugin behavior
-    // exposedSeverity = ExposedSeverity.ERROR
-    // suffix = "Native"
-}
+//nativeCoroutines {
+//    this.k2Mode = true
+//    this.
+//}
+
+
 
 android {
     namespace = "com.kashif.kmmnewsapp"
@@ -79,5 +91,39 @@ android {
     sourceSets["main"].manifest.srcFile("src/androidMain/AndroidManifest.xml")
     defaultConfig {
         minSdk = libs.versions.minSdk.get().toInt()
+    }
+}
+skie {
+    features {
+        group {
+            SuspendInterop.Enabled(true) // Enhanced Swift async/await for suspend functions
+            FlowInterop.Enabled(true) // Swift AsyncSequence support for Flow types
+            FunctionInterop.LegacyName(false) // Use Swift-idiomatic function naming
+            FunctionInterop.FileScopeConversion.Enabled(true) // Expose global functions to Swift
+            DefaultArgumentInterop.Enabled(true) // Swift overloads for functions with default args
+            DefaultArgumentInterop.MaximumDefaultArgumentCount(3) // Limit Swift overloads for default args
+            EnumInterop.Enabled(true) // Improved enum interop with Swift
+            EnumInterop.LegacyCaseName(false) // Use modern Swift case naming for enums
+            SealedInterop.Enabled(true) // Enable sealed class interop for Swift
+            SealedInterop.ExportEntireHierarchy(true) // Export full sealed class hierarchy
+        }
+
+        // Enable preview features for cutting-edge Swift integration
+        enableSwiftUIObservingPreview = true
+        enableFutureCombineExtensionPreview = true
+    }
+    
+    build {
+        // Enable distributable framework for better iOS integration
+        produceDistributableFramework()
+        
+        // Enable Swift library evolution for better binary compatibility
+        enableSwiftLibraryEvolution.set(true)
+    }
+    
+    analytics {
+        // Keep analytics enabled but disable upload during development
+        enabled.set(true)
+        disableUpload.set(true)
     }
 }

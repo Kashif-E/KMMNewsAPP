@@ -1,7 +1,5 @@
 import SwiftUI
 import shared
-import KMPNativeCoroutinesAsync
-import KMPObservableViewModelSwiftUI
 import KMPObservableViewModelSwiftUI
 
 struct ContentView: View {
@@ -12,43 +10,82 @@ struct ContentView: View {
 
     var body: some View {
         VStack(spacing: 24) {
-            Text("KMP Observable Counter")
+            Text("SKIE-Optimized KMP Counter")
                 .font(.title2)
                 .padding(.top, 32)
+            
             Text("Counter: \(counter)")
                 .font(.title)
+                .foregroundColor(.primary)
+            
             Text("Doubled: \(doubled)")
                 .font(.body)
-            Button("Increment") {
-                viewModel.increment()
+                .foregroundColor(.secondary)
+            
+            HStack(spacing: 16) {
+                Button("Decrement") {
+                    viewModel.decrement()
+                }
+                .buttonStyle(.bordered)
+                
+                Button("Increment") {
+                    viewModel.increment()
+                }
+                .buttonStyle(.borderedProminent)
+                
+                Button("Reset") {
+                    // Uses SKIE default argument optimization
+                    viewModel.reset()
+                }
+                .buttonStyle(.bordered)
             }
+            
             if let error = error {
-                Text(error).foregroundColor(.red)
+                Text("Error: \(error)")
+                    .foregroundColor(.red)
+                    .padding()
+                    .background(Color.red.opacity(0.1))
+                    .cornerRadius(8)
             }
+            
             Spacer()
         }
+        .padding()
         .onAppear {
-            observeFlows()
+            observeFlowsWithSKIE()
         }
     }
 
-    private func observeFlows() {
+    // SKIE-optimized Flow observation
+    private func observeFlowsWithSKIE() {
+        // SKIE automatically converts StateFlow to AsyncSequence
         Task {
             do {
-                for try await value in asyncSequence(for: viewModel.counterFlow) {
-                    counter = Int(truncating: value)
+                // Direct AsyncSequence usage - SKIE magic!
+                for await value in viewModel.counter {
+                    await MainActor.run {
+                        counter = Int(truncating: value)
+                    }
                 }
             } catch {
-                self.error = error.localizedDescription
+                await MainActor.run {
+                    self.error = "Counter error: \(error.localizedDescription)"
+                }
             }
         }
+        
         Task {
             do {
-                for try await value in asyncSequence(for: viewModel.doubledFlow) {
-                    doubled = Int(truncating: value)
+                // Another SKIE-optimized Flow observation
+                for await value in viewModel.doubled {
+                    await MainActor.run {
+                        doubled = Int(truncating: value)
+                    }
                 }
             } catch {
-                self.error = error.localizedDescription
+                await MainActor.run {
+                    self.error = "Doubled error: \(error.localizedDescription)"
+                }
             }
         }
     }
