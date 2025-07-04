@@ -7,6 +7,7 @@ import com.kashif.kmmnewsapp.feature.headlines.domain.GetCachedHeadlinesUseCase
 import com.kashif.kmmnewsapp.feature.headlines.domain.GetTopHeadlinesUseCase
 import com.kashif.kmmnewsapp.feature.headlines.domain.RefreshHeadlinesUseCase
 import com.kashif.kmmnewsapp.feature.headlines.domain.HeadlineRepository
+import com.kashif.kmmnewsapp.feature.headlines.domain.LoadHeadlinesPageUseCase
 import com.kashif.kmmnewsapp.feature.headlines.presentation.vm.HeadlinesViewModel
 import org.koin.dsl.module
 
@@ -16,5 +17,6 @@ val headlinesModule = module {
     factory { GetTopHeadlinesUseCase(get()) }
     factory { RefreshHeadlinesUseCase(get()) }
     factory { GetCachedHeadlinesUseCase(get()) }
+    factory { LoadHeadlinesPageUseCase(get()) }
     factory { HeadlinesViewModel() }
 }

@@ -12,6 +12,9 @@ interface HeadlinesDao {
     @Query("SELECT * FROM headlines ORDER BY publishedAt DESC")
     fun getAllHeadlines(): Flow<List<HeadlineEntity>>
 
+    @Query("SELECT * FROM headlines ORDER BY publishedAt DESC")
+    suspend fun getAllHeadlinesOnce(): List<HeadlineEntity>
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertHeadlines(headlines: List<HeadlineEntity>)
 

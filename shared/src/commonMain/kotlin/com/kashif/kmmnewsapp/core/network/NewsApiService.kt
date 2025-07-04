@@ -1,6 +1,5 @@
 package com.kashif.kmmnewsapp.core.network
 
-import com.kashif.kmmnewsapp.core.database.HeadlineEntity
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -14,10 +13,6 @@ data class SourceDto(
     val id: String? = null,
     val name: String = ""
 )
-
-interface NewsApiService {
-    suspend fun getTopHeadlines(): List<HeadlineDto>
-}
 
 @Serializable
 data class HeadlineDto(
@@ -38,13 +33,18 @@ data class NewsApiResponse(
     val articles: List<HeadlineDto>
 )
 
+interface NewsApiService {
+    suspend fun getTopHeadlines(country: String, page: Int, pageSize: Int): NewsApiResponse
+}
+
 class NewsApiServiceImpl(private val client: HttpClient, private val apiKey: String) : NewsApiService {
-    override suspend fun getTopHeadlines(): List<HeadlineDto> {
+    override suspend fun getTopHeadlines(country: String, page: Int, pageSize: Int): NewsApiResponse {
         val response: HttpResponse = client.get("https://newsapi.org/v2/top-headlines") {
-            parameter("country", "us")
+            parameter("country", country)
             parameter("apiKey", apiKey)
+            parameter("page", page)
+            parameter("pageSize", pageSize)
         }
-        val apiResponse: NewsApiResponse = response.body()
-        return apiResponse.articles
+        return response.body()
     }
 }
