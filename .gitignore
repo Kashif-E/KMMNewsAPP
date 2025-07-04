@@ -9,3 +9,12 @@
 .externalNativeBuild
 .cxx
 local.properties
+# Kotlin/Native and KMP build artifacts
+.kotlin/
+*.klib
+# CocoaPods
+iosApp/Pods/
+# Xcode user data
+iosApp/iosApp.xcodeproj/xcuserdata/
+iosApp/iosApp.xcworkspace/xcuserdata/
+
