@@ -5,7 +5,7 @@ package="com.kashif.kmmnewsapp.android">
 <uses-permission android:name="android.permission.INTERNET" />
 
 <application
-    android:name=".KmmNewsAPP"
+    android:name=".MainApplication"
     android:allowBackup="false"
     android:hardwareAccelerated="true"
     android:label="Kmm News"

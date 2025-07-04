@@ -4,11 +4,9 @@ kotlin = "2.2.0"
 android-gradle = "8.6.1"
 ksp = "2.2.0-2.0.2"
 
-# Compose
-compose-version = "1.3.1"
+
 compose-ui-version = "1.8.3"
 compose-activity = "1.10.1"
-compose-compiler = "1.5.15"
 
 # Ktor
 ktor = "3.1.3"
@@ -41,6 +39,9 @@ splash-screen = "1.0.1"
 compileSdk = "35"
 minSdk = "23"
 targetSdk = "35"
+
+room = "2.7.0"
+sqlite = "2.4.0"
 
 [libraries]
 # Kotlin and Android
@@ -90,6 +91,11 @@ moko-mvvm-core = { module = "dev.icerock.moko:mvvm-core", version.ref = "moko-mv
 # Splash Screen
 splash-screen = { module = "androidx.core:core-splashscreen", version.ref = "splash-screen" }
 
+# Room
+androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
+androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+sqlite-bundled = { module = "androidx.sqlite:sqlite-bundled", version.ref = "sqlite" }
+
 # Test
 kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
 
@@ -126,4 +132,6 @@ kotlinx = [
 ]
 
 [plugins]
-compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" } 
+compose-compiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
+room = { id = "androidx.room", version.ref = "room" } 

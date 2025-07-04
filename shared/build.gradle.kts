@@ -13,6 +13,8 @@ plugins {
     kotlin("plugin.parcelize")
    // id("com.rickclephas.kmp.nativecoroutines") version "1.0.0-ALPHA-45"
     id("co.touchlab.skie") version "0.10.4"
+    alias(libs.plugins.room)
+    alias(libs.plugins.ksp)
 }
 
 version = "1.0"
@@ -46,12 +48,13 @@ kotlin {
                 implementation(libs.bundles.ktor.common)
                 implementation(libs.koin.core)
                 implementation(libs.bundles.kotlinx)
-                api(libs.moko.mvvm.core)
                 implementation(libs.kotlinx.coroutines.core)
                 api("com.rickclephas.kmp:kmp-observableviewmodel-core:1.0.0-BETA-12")
                 
                 // SKIE configuration annotations for fine-grained control
                 compileOnly("co.touchlab.skie:configuration-annotations:0.10.4")
+                implementation(libs.androidx.room.runtime)
+                implementation(libs.sqlite.bundled)
             }
         }
         val commonTest by getting {
@@ -126,4 +129,16 @@ skie {
         enabled.set(true)
         disableUpload.set(true)
     }
+}
+
+dependencies {
+    // KSP support for Room Compiler.
+    add("kspAndroid", libs.androidx.room.compiler)
+    add("kspIosSimulatorArm64", libs.androidx.room.compiler)
+    add("kspIosX64", libs.androidx.room.compiler)
+    add("kspIosArm64", libs.androidx.room.compiler)
+}
+
+room {
+    schemaDirectory("$projectDir/schemas")
 }
