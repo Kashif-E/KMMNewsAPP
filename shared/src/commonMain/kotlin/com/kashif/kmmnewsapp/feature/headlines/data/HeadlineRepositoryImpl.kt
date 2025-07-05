@@ -31,7 +31,6 @@ class HeadlineRepositoryImpl(
     companion object {
         private const val CACHE_TTL_MS = 5 * 60 * 1000L // 5 minutes
         private const val BACKGROUND_SYNC_INTERVAL_MS = 30 * 60 * 1000L
-        private const val MAX_RETRY_ATTEMPTS = 3
     }
 
     /**
