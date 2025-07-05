@@ -1,5 +1,6 @@
 package com.kashif.kmmnewsapp.feature.headlines.domain
 
+import com.kashif.kmmnewsapp.feature.headlines.data.SyncStatusInfo
 import kotlinx.coroutines.flow.Flow
 
 
@@ -17,4 +18,6 @@ interface HeadlineRepository {
         pageSize: Int, 
         append: Boolean
     ): Pair<List<Headline>, Int>
+
+    suspend fun getSyncStatus(country: String): SyncStatusInfo
 }

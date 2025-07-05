@@ -21,6 +21,8 @@ import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.get
@@ -63,6 +65,10 @@ class HeadlinesViewModel(
     private val _effect = MutableSharedFlow<HeadlinesEffect>()
     @FlowInterop.Enabled
     val effect: SharedFlow<HeadlinesEffect> = _effect.asSharedFlow()
+
+
+    private val _lastSyncTime = MutableStateFlow<Long?>(null)
+    val lastSyncTime: StateFlow<Long?> = _lastSyncTime
 
 
     private var currentCountry: String = defaultCountry
@@ -115,12 +121,14 @@ class HeadlinesViewModel(
                     paginationManager.loadInitial(defaultPageSize) { page, size ->
                         loadHeadlinesData(page, size)
                     }
+                    updateLastSyncTime()
                 }
 
                 is PaginationIntent.LoadMore -> {
                     paginationManager.loadNext { page, size ->
                         loadHeadlinesData(page, size)
                     }
+                    updateLastSyncTime()
                 }
 
                 is PaginationIntent.Refresh -> {
@@ -129,16 +137,19 @@ class HeadlinesViewModel(
                     paginationManager.refresh { page, size ->
                         loadHeadlinesData(page, size)
                     }
+                    updateLastSyncTime()
                 }
 
                 is PaginationIntent.Retry -> {
                     paginationManager.retry { page, size ->
                         loadHeadlinesData(page, size)
                     }
+                    updateLastSyncTime()
                 }
 
                 is PaginationIntent.Clear -> {
                     paginationManager.clear()
+                    _lastSyncTime.value = null
                 }
 
                 is PaginationIntent.SetPageSize -> {
@@ -147,6 +158,7 @@ class HeadlinesViewModel(
                     paginationManager.loadInitial(intent.size) { page, size ->
                         loadHeadlinesData(page, size)
                     }
+                    updateLastSyncTime()
                 }
             }
         } catch (e: Exception) {
@@ -213,6 +225,13 @@ class HeadlinesViewModel(
     fun retryLastOperation() {
         viewModelScope.launch {
             handlePaginationIntent(PaginationIntent.Retry)
+        }
+    }
+
+    private suspend fun updateLastSyncTime() {
+        val status = getCachedHeadlines.getSyncStatus(currentCountry)
+        _lastSyncTime.update {
+            status.lastSyncTime
         }
     }
 }

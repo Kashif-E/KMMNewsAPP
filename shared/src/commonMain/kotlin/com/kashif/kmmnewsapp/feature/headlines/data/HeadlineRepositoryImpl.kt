@@ -262,7 +262,7 @@ class HeadlineRepositoryImpl(
     /**
      * Get sync status for UI feedback
      */
-    suspend fun getSyncStatus(country: String): SyncStatusInfo {
+    override suspend fun getSyncStatus(country: String): SyncStatusInfo {
         val db = databaseProvider.getDatabase()
         val dao = db.headlinesDao()
         val cacheStats = dao.getCacheStats(country)

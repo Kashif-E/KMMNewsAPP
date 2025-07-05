@@ -14,6 +14,9 @@ import com.kashif.kmmnewsapp.core.pagination.PaginationIntent
 import com.kashif.kmmnewsapp.feature.headlines.presentation.mvi.HeadlinesIntent
 import com.kashif.kmmnewsapp.feature.headlines.presentation.vm.HeadlinesViewModel
 import org.koin.compose.koinInject
+import androidx.compose.ui.unit.dp
+import java.text.SimpleDateFormat
+import java.util.Date
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,41 +24,53 @@ import org.koin.compose.koinInject
 fun HeadlinesScreen() {
     val viewModel: HeadlinesViewModel = koinInject()
     
-
-
     val paginationState by viewModel.paginationState.collectAsState()
-
+    val lastSyncTime: Long? by viewModel.lastSyncTime.collectAsState(null)
     val listState = rememberLazyListState()
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                title = {
-                    Text(
-                        "Top Headlines",
-                        modifier = Modifier.semantics {
-                            contentDescription = "Top Headlines screen. ${paginationState.accessibilityDescription}"
+            Column {
+                TopAppBar(
+                    title = {
+                        Text(
+                            "Top Headlines",
+                            modifier = Modifier.semantics {
+                                contentDescription = "Top Headlines screen. ${paginationState.accessibilityDescription}"
+                            }
+                        )
+                    },
+                    actions = {
+                        IconButton(
+                            onClick = {
+                                viewModel.sendPaginationIntent(PaginationIntent.Refresh)
+                            },
+                            modifier = Modifier.semantics {
+                                contentDescription = "Refresh headlines"
+                            }
+                        ) {
+                            Icon(Icons.Default.Refresh, contentDescription = null)
                         }
-                    )
-                },
-                actions = {
-                    IconButton(
-                        onClick = {
-
-                            viewModel.sendPaginationIntent(PaginationIntent.Refresh)
-                        },
-                        modifier = Modifier.semantics {
-                            contentDescription = "Refresh headlines"
-                        }
-                    ) {
-                        Icon(Icons.Default.Refresh, contentDescription = null)
                     }
+                )
+                // Last Sync Time View
+                if (lastSyncTime != null) {
+                    val formatted = remember(lastSyncTime) {
+                        SimpleDateFormat("yyyy-MM-dd HH:mm:ss", java.util.Locale.getDefault())
+                            .format(Date(lastSyncTime!!))
+                    }
+                    Text(
+                        text = "Last synced: $formatted",
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(start = 16.dp, end = 16.dp, bottom = 4.dp)
+                    )
                 }
-            )
+            }
         }
     ) { padding ->
         Box(modifier = Modifier.padding(padding)) {
-
             PaginatedHeadlinesList(
                 state = paginationState,
                 onLoadMore = {
