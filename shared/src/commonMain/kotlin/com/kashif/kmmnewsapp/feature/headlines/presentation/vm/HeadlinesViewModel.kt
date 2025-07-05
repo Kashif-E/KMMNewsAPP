@@ -75,7 +75,6 @@ class HeadlinesViewModel(
 
     @FunctionInterop.LegacyName.Disabled
     fun send(intent: HeadlinesIntent, country: String? = null) {
-        println("📨 Enhanced pagination - Received intent: $intent, country: $country")
         
 
         country?.let { currentCountry = it }
@@ -100,7 +99,7 @@ class HeadlinesViewModel(
 
     @FunctionInterop.LegacyName.Disabled
     fun sendPaginationIntent(intent: PaginationIntent, country: String? = null) {
-        println("📨 sendPaginationIntent called with: $intent")
+        
         country?.let { currentCountry = it }
         
         viewModelScope.launch {
@@ -111,24 +110,20 @@ class HeadlinesViewModel(
 
     private suspend fun handlePaginationIntent(intent: PaginationIntent) {
         try {
-            println("🎯 handlePaginationIntent: $intent")
             when (intent) {
                 is PaginationIntent.LoadInitial -> {
-                    println("🚀 Loading initial page with size: $defaultPageSize")
                     paginationManager.loadInitial(defaultPageSize) { page, size ->
                         loadHeadlinesData(page, size)
                     }
                 }
 
                 is PaginationIntent.LoadMore -> {
-                    println("📄 Loading next page")
                     paginationManager.loadNext { page, size ->
                         loadHeadlinesData(page, size)
                     }
                 }
 
                 is PaginationIntent.Refresh -> {
-                    println("🔄 Refreshing data")
 
                     refreshHeadlines(currentCountry)
                     paginationManager.refresh { page, size ->
@@ -137,19 +132,16 @@ class HeadlinesViewModel(
                 }
 
                 is PaginationIntent.Retry -> {
-                    println("🔁 Retrying last operation")
                     paginationManager.retry { page, size ->
                         loadHeadlinesData(page, size)
                     }
                 }
 
                 is PaginationIntent.Clear -> {
-                    println("🧹 Clearing pagination state")
                     paginationManager.clear()
                 }
 
                 is PaginationIntent.SetPageSize -> {
-                    println("📏 Setting page size to: ${intent.size}")
 
                     paginationManager.clear()
                     paginationManager.loadInitial(intent.size) { page, size ->
@@ -158,14 +150,12 @@ class HeadlinesViewModel(
                 }
             }
         } catch (e: Exception) {
-            println("❌ Error handling pagination intent: ${e.message}")
             _effect.emit(HeadlinesEffect.ShowError(e.message ?: "Unknown error"))
         }
     }
 
 
     private suspend fun loadHeadlinesData(page: Int, pageSize: Int): PaginationResult<Headline> {
-        println("🔄 Loading page $page with pageSize=$pageSize")
         
         val (headlines, totalResults) = loadHeadlinesPage(
             country = currentCountry,
@@ -173,8 +163,6 @@ class HeadlinesViewModel(
             pageSize = pageSize,
             append = page > 1
         )
-
-        println("✅ Loaded ${headlines.size} headlines, totalResults=$totalResults")
 
 
         val totalPages = (totalResults + pageSize - 1) / pageSize
@@ -191,11 +179,9 @@ class HeadlinesViewModel(
     private fun loadInitialData() {
         viewModelScope.launch {
             try {
-                println("🚀 Starting initial data load")
 
                 handlePaginationIntent(PaginationIntent.LoadInitial)
             } catch (e: Exception) {
-                println("❌ Error loading initial data: ${e.message}")
                 _effect.emit(HeadlinesEffect.ShowError(e.message ?: "Failed to load headlines"))
             }
         }

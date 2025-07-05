@@ -78,7 +78,6 @@ class HeadlineRepositoryImpl(
                 performNetworkSync(country, page = 1, isRefresh = true)
             } else {
                 // Offline: Just mark cache as manually refreshed
-                println("📱 Offline refresh - showing cached content for $country")
             }
         } catch (e: Exception) {
             println(" Refresh failed: ${e.message}")
@@ -113,7 +112,7 @@ class HeadlineRepositoryImpl(
         return when {
 
             hasValidCache -> {
-                println("✅ Serving from valid cache for $country, page $page")
+                println("Serving from valid cache for $country, page $page")
                 val cachedHeadlines = dao.getValidCachedHeadlines(country, ttlMs = CACHE_TTL_MS)
                 val totalCount = dao.countCachedHeadlines(country)
                 
@@ -134,13 +133,13 @@ class HeadlineRepositoryImpl(
             
 
             isConnected -> {
-                println("🌐 Fetching fresh data for $country, page $page")
+                println("Fetching fresh data for $country, page $page")
                 performNetworkSync(country, page, pageSize, append)
             }
             
 
             else -> {
-                println("📱 Offline mode - serving stale cache for $country")
+                println("Offline mode - serving stale cache for $country")
                 val staleHeadlines = dao.getAllHeadlinesOnce(country)
                 val totalCount = staleHeadlines.size
                 
@@ -213,7 +212,7 @@ class HeadlineRepositoryImpl(
                 dao.limitCacheSize(country, 400)
             }
             
-            println("✅ Network sync completed: ${entities.size} headlines for $country, page $page")
+            println("Network sync completed: ${entities.size} headlines for $country, page $page")
             
             return Pair(
                 entities.map { it.toDomain() },
@@ -221,7 +220,7 @@ class HeadlineRepositoryImpl(
             )
             
         } catch (e: Exception) {
-            println("❌ Network sync failed for $country, page $page: ${e.message}")
+            println("Network sync failed for $country, page $page: ${e.message}")
             
 
             val existingEntries = dao.getHeadlinesByPage(country, page)
@@ -251,12 +250,11 @@ class HeadlineRepositoryImpl(
             val needsSync = !dao.hasValidCache(country, ttlMs = BACKGROUND_SYNC_INTERVAL_MS)
             
             if (needsSync) {
-                println("🔄 Triggering background sync for $country")
+                println("Triggering background sync for $country")
                 try {
                     performNetworkSync(country, page = 1, isRefresh = true)
                 } catch (e: Exception) {
-                    println("⚠️ Background sync failed: ${e.message}")
-                    // Don't propagate error for background sync
+                    println("Background sync failed: ${e.message}")
                 }
             }
         } finally {

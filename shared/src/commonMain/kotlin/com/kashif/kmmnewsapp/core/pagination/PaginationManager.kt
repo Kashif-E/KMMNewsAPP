@@ -26,14 +26,11 @@ class PaginationManager<T> {
         pageSize: Int = 20,
         loader: suspend (page: Int, size: Int) -> PaginationResult<T>
     ) {
-        println("📥 loadInitial called with pageSize: $pageSize")
         mutex.withLock {
             if (_state.value.isInitialLoading) {
-                println("⚠️ Already loading initial page, skipping")
                 return@withLock
             }
 
-            println("🏁 Setting initial loading state")
             _state.update { current ->
                 current.copy(
                     isInitialLoading = true,
@@ -43,12 +40,9 @@ class PaginationManager<T> {
             }
 
             try {
-                println("📞 Calling loader for page 1")
                 val result = loader(1, pageSize)
-                println("✅ Loader completed with ${result.items.size} items")
                 handleLoadResult(result, isInitial = true)
             } catch (e: Exception) {
-                println("❌ Loader failed: ${e.message}")
                 handleError(e, isInitial = true)
             }
         }
@@ -60,30 +54,23 @@ class PaginationManager<T> {
     ) {
         val currentTime = Clock.System.now().toEpochMilliseconds()
         if (currentTime - lastRequestTime < debounceDelayMs) {
-            println("⏰ Debouncing loadNext request")
             return
         }
         lastRequestTime = currentTime
 
-        println("📄 loadNext called")
         mutex.withLock {
             val current = _state.value
             if (!current.canLoadMore) {
-                println("⚠️ Cannot load more - canLoadMore: ${current.canLoadMore}, hasMore: ${current.hasMore}, isLoading: ${current.isLoadingMore}")
                 return@withLock
             }
 
-            println("📄 Setting loading more state for page ${current.currentPage + 1}")
             _state.update { it.copy(isLoadingMore = true, error = null) }
 
             try {
                 val nextPage = current.currentPage + 1
-                println("📞 Calling loader for page $nextPage")
                 val result = loader(nextPage, current.pageSize)
-                println("✅ LoadNext completed with ${result.items.size} items")
                 handleLoadResult(result, isInitial = false)
             } catch (e: Exception) {
-                println("❌ LoadNext failed: ${e.message}")
                 handleError(e, isInitial = false)
             }
         }
@@ -151,8 +138,6 @@ class PaginationManager<T> {
         isInitial: Boolean,
         isRefresh: Boolean = false
     ) {
-        println("📊 handleLoadResult - items: ${result.items.size}, total: ${result.totalItems}, hasMore: ${result.hasMore}, isInitial: $isInitial")
-        
         _state.update { current ->
             val newItems = if (isInitial || isRefresh) {
                 result.items
@@ -162,8 +147,6 @@ class PaginationManager<T> {
 
             val newPage = if (isInitial || isRefresh) 1 else current.currentPage + 1
             val hasMore = result.hasMore && result.items.isNotEmpty()
-
-            println("📈 State updated - totalItems: ${newItems.size}, page: $newPage, hasMore: $hasMore")
 
             current.copy(
                 items = newItems,

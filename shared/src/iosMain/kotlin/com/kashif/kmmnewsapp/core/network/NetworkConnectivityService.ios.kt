@@ -53,16 +53,13 @@ actual class NetworkConnectivityServiceImpl : BaseNetworkConnectivityService() {
         serviceScope.launch {
             stateMutex.withLock {
                 if (isCurrentlyMonitoring) {
-                    println("NetworkConnectivityService: Monitoring already active, skipping start")
                     return@withLock
                 }
                 
                 try {
                     initializePathMonitor()
                     isCurrentlyMonitoring = true
-                    println("NetworkConnectivityService: Successfully started network monitoring")
                 } catch (e: Exception) {
-                    println("NetworkConnectivityService: Failed to start monitoring: ${e.message}")
                     handleMonitoringError(e)
                 }
             }
@@ -74,14 +71,12 @@ actual class NetworkConnectivityServiceImpl : BaseNetworkConnectivityService() {
         serviceScope.launch {
             stateMutex.withLock {
                 if (!isCurrentlyMonitoring) {
-                    println("NetworkConnectivityService: Monitoring not active, skipping stop")
                     return@withLock
                 }
                 
                 try {
                     cleanupPathMonitor()
                     isCurrentlyMonitoring = false
-                    println("NetworkConnectivityService: Successfully stopped network monitoring")
                 } catch (e: Exception) {
                     println("NetworkConnectivityService: Error during monitoring cleanup: ${e.message}")
                 }
@@ -130,8 +125,6 @@ actual class NetworkConnectivityServiceImpl : BaseNetworkConnectivityService() {
             
 
             nw_path_monitor_start(monitor)
-            
-            println("NetworkConnectivityService: nw_path_monitor initialized successfully")
             
         } catch (e: Exception) {
             println("NetworkConnectivityService: Failed to initialize nw_path_monitor: ${e.message}")
@@ -244,8 +237,6 @@ actual class NetworkConnectivityServiceImpl : BaseNetworkConnectivityService() {
             pathMonitor = null
             monitorQueue = null
             
-            println("NetworkConnectivityService: nw_path_monitor cleanup completed")
-            
         } catch (e: Exception) {
             println("NetworkConnectivityService: Error during nw_path_monitor cleanup: ${e.message}")
         }
@@ -265,6 +256,5 @@ actual class NetworkConnectivityServiceImpl : BaseNetworkConnectivityService() {
             println("NetworkConnectivityService: Additional error during cleanup: ${cleanupError.message}")
         }
         
-        isCurrentlyMonitoring = false
     }
 }
