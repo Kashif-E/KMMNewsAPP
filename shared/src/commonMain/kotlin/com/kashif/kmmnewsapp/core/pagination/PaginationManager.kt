@@ -8,32 +8,20 @@ import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.datetime.Clock
 
-/**
- * Production-ready pagination manager following research best practices.
- *
- * Key features:
- * - Thread-safe operations with mutex
- * - Debounced loading to prevent duplicate requests
- * - Comprehensive error handling and recovery
- * - Memory-efficient state management
- * - Accessibility support
- * - Performance optimizations
- */
+
 class PaginationManager<T> {
 
     private val _state = MutableStateFlow(PaginationState<T>())
     val state: StateFlow<PaginationState<T>> = _state.asStateFlow()
 
-    // Thread safety for concurrent operations
+
     private val mutex = Mutex()
 
-    // Debouncing to prevent rapid-fire requests
+
     private var lastRequestTime = 0L
     private val debounceDelayMs = 300L
 
-    /**
-     * Loads the initial page with comprehensive error handling
-     */
+
     suspend fun loadInitial(
         pageSize: Int = 20,
         loader: suspend (page: Int, size: Int) -> PaginationResult<T>
@@ -66,9 +54,7 @@ class PaginationManager<T> {
         }
     }
 
-    /**
-     * Loads the next page with debouncing and duplicate request prevention
-     */
+
     suspend fun loadNext(
         loader: suspend (page: Int, size: Int) -> PaginationResult<T>
     ) {

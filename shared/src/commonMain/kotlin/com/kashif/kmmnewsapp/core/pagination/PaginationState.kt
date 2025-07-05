@@ -1,14 +1,6 @@
 package com.kashif.kmmnewsapp.core.pagination
 
-/**
- * Production-ready pagination state with comprehensive error handling and accessibility support.
- * 
- * This state model follows the research findings for building maintainable pagination systems:
- * - Separates different types of loading states
- * - Handles error recovery mechanisms
- * - Provides accessibility context
- * - Supports efficient recomposition
- */
+
 data class PaginationState<T>(
     val items: List<T> = emptyList(),
     val currentPage: Int = 1,
@@ -21,9 +13,7 @@ data class PaginationState<T>(
     val hasMore: Boolean = true,
     val lastRefreshTime: Long = 0L
 ) {
-    /**
-     * Computed property for accessibility - provides screen readers with context
-     */
+
     val accessibilityDescription: String
         get() = when {
             isInitialLoading -> "Loading content, please wait"
@@ -34,9 +24,7 @@ data class PaginationState<T>(
             else -> "${items.size} of $totalItems items loaded"
         }
 
-    /**
-     * Determines if we're near the end and should trigger loading more
-     */
+
     fun shouldLoadMore(lastVisibleIndex: Int, bufferSize: Int = 5): Boolean {
         return hasMore && 
                !isLoadingMore && 
@@ -46,22 +34,16 @@ data class PaginationState<T>(
                lastVisibleIndex >= (items.size - bufferSize)
     }
 
-    /**
-     * Check if pagination can be triggered (prevents duplicate requests)
-     */
+
     val canLoadMore: Boolean
         get() = hasMore && !isLoadingMore && !isInitialLoading && error == null
 
-    /**
-     * Provides loading progress for accessibility
-     */
+
     val loadingProgress: Float
         get() = if (totalItems > 0) items.size.toFloat() / totalItems else 0f
 }
 
-/**
- * Comprehensive error types for different pagination scenarios
- */
+
 sealed class PaginationError(val message: String, val isRecoverable: Boolean = true) {
     data class NetworkError(val cause: String) : PaginationError(
         message = "Network error: $cause",

@@ -1,17 +1,40 @@
 import SwiftUI
-
 import shared
+
 @main
 struct iOSApp: App {
-    /**
-     you can also initialise koin using an app delegate
-     */
-    init(){
-       CoreModuleKt.doInitKoin(baseUrl: "https://newsapi.org/v2")
+    init() {
+        
+        let dependenciesHelper = DependenciesProviderHelper()
+        dependenciesHelper.doInitKoinIos(
+            enableNetworkLogs: true,
+            baseUrl: "https://newsapi.org/v2"
+        )
+        
+       
+        let setupSuccessful = verifyKoinSetup()
+        if !setupSuccessful {
+            print(" Warning: Koin setup verification failed!")
+        }
+        
+     
+        let networkService: NetworkConnectivityServiceImpl = get()
+        networkService.startMonitoring()
+        print("Initial connectivity: \(networkService.connectivityState.value)")
+        
+       
     }
-	var body: some Scene {
-		WindowGroup {
-			HeadlinesView()
-		}
-	}
+    
+    var body: some Scene {
+        WindowGroup {
+            TabView {
+                HeadlinesView()
+                    .tabItem {
+                        Image(systemName: "newspaper")
+                        Text("Headlines")
+                    }
+            
+            }
+        }
+    }
 }

@@ -11,7 +11,7 @@ fun HeadlineDto.toEntity(): HeadlineEntity = HeadlineEntity(
     url = url,
     imageUrl = imageUrl,
     publishedAt = publishedAt,
-    source = source.name // Store only the source name
+    source = source.name
 )
 
 fun HeadlineEntity.toDomain(): Headline = Headline(

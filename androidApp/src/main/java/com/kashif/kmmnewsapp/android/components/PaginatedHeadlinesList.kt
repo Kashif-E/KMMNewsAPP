@@ -20,9 +20,7 @@ import com.kashif.kmmnewsapp.core.pagination.PaginationState
 import com.kashif.kmmnewsapp.feature.headlines.domain.Headline
 
 
-/**
- * Production-ready paginated headlines list with comprehensive accessibility support.
- */
+
 @Composable
 fun PaginatedHeadlinesList(
     state: PaginationState<Headline>,

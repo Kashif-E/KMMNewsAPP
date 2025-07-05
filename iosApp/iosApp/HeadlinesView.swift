@@ -13,7 +13,8 @@ import KMPObservableViewModelSwiftUI
  * - Memory-efficient composition and updates
  */
 struct HeadlinesView: View {
-    @StateViewModel var viewModel = HeadlinesViewModel()
+    // Using the new clean get() method instead of @StateViewModel
+    @StateObject private var viewModel: HeadlinesViewModel = get()
     
     // Enhanced pagination state
     @State private var headlines: [Headline] = []

@@ -2,7 +2,7 @@ package com.kashif.kmmnewsapp.feature.headlines.presentation.mvi
 
 import com.kashif.kmmnewsapp.feature.headlines.domain.Headline
 
-// Use a data class for state for easier copy and mutation
+
 
 data class HeadlinesState(
     val headlines: List<Headline> = emptyList(),

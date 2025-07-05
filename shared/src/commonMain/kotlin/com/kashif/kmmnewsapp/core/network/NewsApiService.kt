@@ -23,7 +23,7 @@ data class HeadlineDto(
     val publishedAt: String = "",
     val source: SourceDto = SourceDto()
 ) {
-    val id: String get() = url // Use URL as unique ID
+    val id: String get() = url
 }
 
 @Serializable

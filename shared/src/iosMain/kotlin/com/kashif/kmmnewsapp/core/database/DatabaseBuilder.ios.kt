@@ -12,7 +12,9 @@ actual fun getDatabaseBuilder(): RoomDatabase.Builder<AppDatabase> {
     val dbFilePath = documentDirectory() + "/headlines.db"
     return Room.databaseBuilder<AppDatabase>(
         name = dbFilePath
-    ).setDriver(BundledSQLiteDriver())
+    )
+    .setDriver(BundledSQLiteDriver())
+
 }
 
 @OptIn(ExperimentalForeignApi::class)
