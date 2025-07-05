@@ -3,7 +3,6 @@ package com.kashif.kmmnewsapp.feature.headlines.data
 import com.kashif.kmmnewsapp.core.cache.CacheManager
 import com.kashif.kmmnewsapp.core.cache.CacheManagerImpl
 import com.kashif.kmmnewsapp.core.database.DatabaseProvider
-import com.kashif.kmmnewsapp.core.database.HeadlineEntity
 import com.kashif.kmmnewsapp.core.database.SyncStatus
 import com.kashif.kmmnewsapp.core.network.NetworkConnectivityService
 import com.kashif.kmmnewsapp.core.network.NewsApiService
@@ -13,7 +12,6 @@ import com.kashif.kmmnewsapp.feature.headlines.domain.Headline
 import com.kashif.kmmnewsapp.feature.headlines.domain.HeadlineRepository
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.time.Clock
