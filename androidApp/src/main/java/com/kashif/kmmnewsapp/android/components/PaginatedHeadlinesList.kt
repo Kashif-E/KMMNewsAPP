@@ -3,9 +3,7 @@ package com.kashif.kmmnewsapp.android.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.*
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Refresh
+import com.composables.icons.lucide.Lucide
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -16,7 +14,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.rememberAsyncImagePainter
-import com.kashif.kmmnewsapp.android.screens.home.FeaturedHeadlines
+import com.composables.icons.lucide.RotateCcw
+import com.composables.icons.lucide.X
+import com.kashif.kmmnewsapp.android.screens.home.FeaturedArticlesSection
 import com.kashif.kmmnewsapp.core.pagination.PaginationState
 import com.kashif.kmmnewsapp.feature.headlines.domain.Headline
 
@@ -65,7 +65,7 @@ fun PaginatedHeadlinesList(
 
                     // Featured Headlines Section
                     item {
-                        FeaturedHeadlines(
+                        FeaturedArticlesSection(
                             headlines = state.items.take(5),
                             onHeadlineClick = {
 
@@ -200,7 +200,7 @@ private fun InitialLoadingIndicator() {
 }
 
 @Composable
-private fun LoadMoreIndicator(
+fun LoadMoreIndicator(
     progress: Float,
     accessibilityLabel: String,
     modifier: Modifier = Modifier
@@ -246,7 +246,7 @@ private fun ErrorState(
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             Icon(
-                imageVector = Icons.Default.Close,
+                imageVector = Lucide.X,
                 contentDescription = "Error icon",
                 tint = MaterialTheme.colorScheme.error,
                 modifier = Modifier.size(64.dp)
@@ -274,7 +274,7 @@ private fun ErrorState(
                     onClick = onRetry,
                     modifier = Modifier.sizeIn(minWidth = 48.dp, minHeight = 48.dp)
                 ) {
-                    Icon(Icons.Default.Refresh, contentDescription = null)
+                    Icon(Lucide.RotateCcw, contentDescription = null)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text("Retry")
                 }
@@ -284,7 +284,7 @@ private fun ErrorState(
 }
 
 @Composable
-private fun ErrorFooter(
+fun ErrorFooter(
     error: com.kashif.kmmnewsapp.core.pagination.PaginationError,
     onRetry: () -> Unit,
     canRetry: Boolean,
@@ -339,7 +339,7 @@ private fun EmptyState(
                 onClick = onRefresh,
                 modifier = Modifier.sizeIn(minWidth = 48.dp, minHeight = 48.dp)
             ) {
-                Icon(Icons.Default.Refresh, contentDescription = null)
+                Icon(Lucide.RotateCcw, contentDescription = null)
                 Spacer(modifier = Modifier.width(8.dp))
                 Text("Refresh")
             }
@@ -348,7 +348,7 @@ private fun EmptyState(
 }
 
 @Composable
-private fun EndOfListIndicator(
+fun EndOfListIndicator(
     totalItems: Int,
     modifier: Modifier = Modifier
 ) {
