@@ -13,7 +13,7 @@ struct FeaturedArticleCard: View {
     var body: some View {
         Button(action: onClick) {
             ZStack {
-                // Background image
+               
                 AsyncImage(url: URL(string: headline.imageUrl ?? "")) { image in
                     image
                         .resizable()
@@ -28,8 +28,7 @@ struct FeaturedArticleCard: View {
                 }
                 .frame(width: 250, height: 200)
                 .clipped()
-                
-                // Dark overlay gradient
+            
                 LinearGradient(
                     gradient: Gradient(colors: [Color.clear, Color.black.opacity(0.7)]),
                     startPoint: .top,

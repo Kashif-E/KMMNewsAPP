@@ -2,14 +2,18 @@ import SwiftUI
 import shared
 import KMPObservableViewModelSwiftUI
 
+import SwiftUI
+import shared
+import KMPObservableViewModelSwiftUI
+
 struct HeadlinesView: View {
     @StateObject private var viewModel: HeadlinesViewModel = get()
     @State private var selectedCategory: String = ""
     @State private var searchText: String = ""
     @State private var headlines: [Headline] = []
-    @State private var isLoading: Bool = true
+    @State private var isLoading = true
     @State private var errorMessage: String? = nil
-    
+
     var body: some View {
         NavigationView {
             VStack(spacing: 0) {
@@ -19,59 +23,13 @@ struct HeadlinesView: View {
                         SearchBarView(
                             searchText: searchText,
                             onSearchTextChange: { searchText = $0 },
-                            onSearchClick: { /* TODO: search action */ }
+                            onSearchClick: { /* TODO: implement search */ }
                         )
                         CategoryChipsView(
                             selectedCategory: selectedCategory,
                             onCategorySelected: { selectedCategory = $0 }
                         )
-                        if isLoading {
-                            ProgressView("Loading headlines...")
-                                .frame(maxWidth: .infinity, alignment: .center)
-                        } else if let message = errorMessage {
-                            VStack(spacing: 8) {
-                                Image(systemName: "exclamationmark.triangle")
-                                    .foregroundColor(.orange)
-                                    .font(.largeTitle)
-                                Text(message)
-                                    .foregroundColor(.red)
-                                Button("Retry") {
-                                    errorMessage = nil
-                                    isLoading = true
-                                    viewModel.sendPaginationIntent(intent: PaginationIntentRefresh())
-                                }
-                                .buttonStyle(.borderedProminent)
-                            }
-                            .frame(maxWidth: .infinity, alignment: .center)
-                        } else if headlines.isEmpty {
-                            Text("No headlines loaded.")
-                                .foregroundColor(.secondary)
-                                .frame(maxWidth: .infinity, alignment: .center)
-                        } else {
-                            if !headlines.isEmpty {
-                                FeaturedArticlesSection(
-                                    headlines: Array(headlines.prefix(10)),
-                                    onHeadlineClick: { _ in }
-                                )
-                            }
-                            ShortForYouSection(
-                                headlines: Array(headlines.dropFirst(3).prefix(5)),
-                                onViewAllClick: { /* TODO: view all action */ }
-                            )
-                            Text("Latest Headlines")
-                                .font(.title2)
-                                .fontWeight(.bold)
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                                .padding(.horizontal, 16)
-                                .padding(.top, 8)
-                            VStack(spacing: 16) {
-                                ForEach(headlines, id: \.url) { headline in
-                                    NewsCard(headline: headline)
-                                        .padding(.horizontal, 16)
-                                }
-                            }
-                        }
-                        // TODO: Add end-of-list indicator as needed
+                        contentBody
                     }
                     .padding(.top, 8)
                 }
@@ -80,31 +38,92 @@ struct HeadlinesView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    Button(action: {
-                        errorMessage = nil
-                        isLoading = true
-                        viewModel.sendPaginationIntent(intent: PaginationIntentRefresh())
-                    }) {
+                    Button(action: refreshHeadlines) {
                         Image(systemName: "arrow.clockwise")
                     }
                     .accessibilityLabel("Refresh headlines")
                 }
             }
-            .task {
-                for await paginationState in viewModel.paginationState {
-                    await MainActor.run {
-                        print("Received paginationState: \(paginationState.items.count) items, error: \(String(describing: paginationState.error))")
-                        headlines = paginationState.items as? [Headline] ?? []
-                        isLoading = paginationState.isInitialLoading
-                        if let error = paginationState.error {
-                            errorMessage = error.message
-                        } else {
-                            errorMessage = nil
-                        }
-                    }
-                }
+            .task(id: selectedCategory) {
+                await observePagination()
             }
         }
+    }
+
+    @ViewBuilder
+    private var contentBody: some View {
+        if isLoading {
+            ProgressView("Loading headlines…")
+                .frame(maxWidth: .infinity, alignment: .center)
+        } else if let error = errorMessage {
+            ErrorStateView(message: error, retryAction: refreshHeadlines)
+        } else if headlines.isEmpty {
+            Text("No headlines found.")
+                .foregroundColor(.secondary)
+                .frame(maxWidth: .infinity, alignment: .center)
+        } else {
+            contentSections
+        }
+    }
+
+    @ViewBuilder
+    private var contentSections: some View {
+        FeaturedArticlesSection(
+            headlines: Array(headlines.prefix(10)),
+            onHeadlineClick: { _ in }
+        )
+        ShortForYouSection(
+            headlines: Array(headlines.dropFirst(3).prefix(5)),
+            onViewAllClick: { /* TODO: implement view all */ }
+        )
+        Text("Latest Headlines")
+            .font(.title2)
+            .fontWeight(.bold)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .padding(.horizontal, 16)
+            .padding(.top, 8)
+        VStack(spacing: 16) {
+            ForEach(headlines, id: \.url) { headline in
+                NewsCard(headline: headline)
+            }
+        }
+    }
+
+    private func refreshHeadlines() {
+        errorMessage = nil
+        isLoading = true
+        viewModel.sendPaginationIntent(intent: PaginationIntentRefresh())
+    }
+
+    private func observePagination() async {
+        for await paginationState in viewModel.paginationState {
+            await MainActor.run {
+                headlines = paginationState.items as? [Headline] ?? []
+                isLoading = paginationState.isInitialLoading
+                errorMessage = paginationState.error?.message
+            }
+        }
+    }
+}
+
+// MARK: - ErrorStateView
+struct ErrorStateView: View {
+    let message: String
+    let retryAction: () -> Void
+
+    var body: some View {
+        VStack(spacing: 12) {
+            Image(systemName: "exclamationmark.triangle")
+                .foregroundColor(.orange)
+                .font(.system(size: 40, weight: .bold))
+            Text(message)
+                .foregroundColor(.red)
+                .multilineTextAlignment(.center)
+            Button("Retry", action: retryAction)
+                .buttonStyle(.borderedProminent)
+        }
+        .padding()
+        .frame(maxWidth: .infinity, alignment: .center)
     }
 }
 
@@ -127,32 +146,37 @@ struct FeaturedArticlesSection: View {
     }
 }
 
-// MARK: - NewsCard
 struct NewsCard: View {
     let headline: Headline
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
-            AsyncImage(url: URL(string: headline.imageUrl ?? "")) { image in
-                image
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-            } placeholder: {
-                Rectangle()
-                    .fill(Color.gray.opacity(0.3))
-                    .overlay(
-                        Image(systemName: "photo")
-                            .foregroundColor(.gray)
-                    )
+            AsyncImage(url: URL(string: headline.imageUrl ?? "")) { phase in
+                switch phase {
+                case .success(let image):
+                    image
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                default:
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
+                        .overlay(
+                            Image(systemName: "photo")
+                                .foregroundColor(.gray)
+                        )
+                }
             }
             .frame(height: 160)
             .clipped()
             .cornerRadius(16)
+
             Text(headline.title)
                 .font(.title3)
                 .fontWeight(.semibold)
                 .foregroundColor(.primary)
                 .lineLimit(2)
                 .padding(.top, 8)
+
             if !headline.description.isEmpty {
                 Text(headline.description)
                     .font(.body)
@@ -160,8 +184,10 @@ struct NewsCard: View {
                     .lineLimit(3)
                     .padding(.top, 4)
             }
+
             Divider()
                 .padding(.vertical, 8)
+
             HStack {
                 Text(headline.source)
                     .font(.caption)
@@ -172,6 +198,7 @@ struct NewsCard: View {
                     .foregroundColor(.secondary)
             }
         }
+        .padding()
         .background(Color(.systemBackground))
         .cornerRadius(16)
         .shadow(color: Color(.black).opacity(0.05), radius: 2, x: 0, y: 1)
