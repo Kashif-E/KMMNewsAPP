@@ -15,6 +15,7 @@ import com.kashif.kmmnewsapp.feature.headlines.presentation.mvi.HeadlinesState
 import com.rickclephas.kmp.observableviewmodel.MutableStateFlow
 import com.rickclephas.kmp.observableviewmodel.ViewModel
 import com.rickclephas.kmp.observableviewmodel.launch
+import com.rickclephas.kmp.observableviewmodel.stateIn
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -22,6 +23,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import org.koin.core.component.KoinComponent
@@ -42,27 +44,13 @@ class HeadlinesViewModel(
     private val paginationManager = PaginationManager<Headline>()
 
 
-    private val _state = MutableStateFlow(viewModelScope, HeadlinesState())
-
-
-    @FlowInterop.Enabled
-    val state = paginationManager.state.map { paginationState ->
-        HeadlinesState(
-            headlines = paginationState.items,
-            currentPage = paginationState.currentPage,
-            isLoading = paginationState.isInitialLoading,
-            isLoadingNextPage = paginationState.isLoadingMore,
-            hasMore = paginationState.hasMore,
-            error = paginationState.error?.message
-        )
-    }
-
 
     @FlowInterop.Enabled
     val paginationState = paginationManager.state
 
 
     private val _effect = MutableSharedFlow<HeadlinesEffect>()
+
     @FlowInterop.Enabled
     val effect: SharedFlow<HeadlinesEffect> = _effect.asSharedFlow()
 
@@ -81,7 +69,7 @@ class HeadlinesViewModel(
 
     @FunctionInterop.LegacyName.Disabled
     fun send(intent: HeadlinesIntent, country: String? = null) {
-        
+
 
         country?.let { currentCountry = it }
 
@@ -105,9 +93,9 @@ class HeadlinesViewModel(
 
     @FunctionInterop.LegacyName.Disabled
     fun sendPaginationIntent(intent: PaginationIntent, country: String? = null) {
-        
+
         country?.let { currentCountry = it }
-        
+
         viewModelScope.launch {
             handlePaginationIntent(intent)
         }
@@ -168,7 +156,7 @@ class HeadlinesViewModel(
 
 
     private suspend fun loadHeadlinesData(page: Int, pageSize: Int): PaginationResult<Headline> {
-        
+
         val (headlines, totalResults) = loadHeadlinesPage(
             country = currentCountry,
             page = page,

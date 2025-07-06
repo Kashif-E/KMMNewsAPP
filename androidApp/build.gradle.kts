@@ -10,9 +10,9 @@ android {
     defaultConfig {
         applicationId = "com.kashif.kmmnewsapp.android"
         minSdk = libs.versions.minSdk.get().toInt()
-        targetSdk = 35
         versionCode = 1
         versionName = "1.0"
+        targetSdk = 35
     }
     buildTypes {
         getByName("release") {
@@ -32,15 +32,26 @@ android {
 }
 
 dependencies {
+    val voyagerVersion = "1.1.0-beta02"
     implementation(project(":shared"))
-    
+
 
     implementation(libs.bundles.material3)
-    
+
 
     implementation(libs.bundles.accompanist)
-    
 
+    implementation("cafe.adriel.voyager:voyager-navigator:${voyagerVersion}")
+// Screen Model
+    implementation("cafe.adriel.voyager:voyager-screenmodel:${voyagerVersion}")
+// BottomSheetNavigator
+    implementation("cafe.adriel.voyager:voyager-bottom-sheet-navigator:${voyagerVersion}")
+// TabNavigator
+    implementation("cafe.adriel.voyager:voyager-tab-navigator:${voyagerVersion}")
+// Transitions
+    implementation("cafe.adriel.voyager:voyager-transitions:${voyagerVersion}")
+// Koin integration
+    implementation("cafe.adriel.voyager:voyager-koin:${voyagerVersion}")
     implementation(libs.compose.ui.util)
     implementation(libs.compose.activity)
     implementation(libs.compose.ui.tooling)

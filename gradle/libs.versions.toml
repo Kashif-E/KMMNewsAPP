@@ -1,5 +1,6 @@
 [versions]
 # Kotlin and Android
+iconsLucide = "1.0.0"
 kotlin = "2.2.0"
 android-gradle = "8.6.1"
 ksp = "2.2.0-2.0.2"
@@ -45,6 +46,7 @@ sqlite = "2.4.0"
 
 [libraries]
 # Kotlin and Android
+icons-lucide = { module = "com.composables:icons-lucide", version.ref = "iconsLucide" }
 kotlin-gradle-plugin = { module = "org.jetbrains.kotlin:kotlin-gradle-plugin", version.ref = "kotlin" }
 android-gradle-plugin = { module = "com.android.tools.build:gradle", version.ref = "android-gradle" }
 

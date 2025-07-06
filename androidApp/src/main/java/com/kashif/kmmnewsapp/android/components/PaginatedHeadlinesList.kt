@@ -16,9 +16,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil3.compose.rememberAsyncImagePainter
+import com.kashif.kmmnewsapp.android.screens.home.FeaturedHeadlines
 import com.kashif.kmmnewsapp.core.pagination.PaginationState
 import com.kashif.kmmnewsapp.feature.headlines.domain.Headline
-
 
 
 @Composable
@@ -28,7 +28,7 @@ fun PaginatedHeadlinesList(
     onRefresh: () -> Unit,
     onRetry: () -> Unit,
     modifier: Modifier = Modifier,
-    listState : LazyListState = rememberLazyListState(0, 0)
+    listState: LazyListState = rememberLazyListState(0, 0)
 ) {
     Box(
         modifier = modifier.semantics {
@@ -62,6 +62,24 @@ fun PaginatedHeadlinesList(
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
+
+                    // Featured Headlines Section
+                    item {
+                        FeaturedHeadlines(
+                            headlines = state.items.take(5),
+                            onHeadlineClick = {
+
+                            }
+                        )
+                    }
+
+                    // Latest Headlines Section
+                    item {
+                        Text(
+                            text = "Latest Headlines",
+                            style = MaterialTheme.typography.headlineMedium
+                        )
+                    }
                     paging(
                         items = state.items,
                         currentPage = state.currentPage,
@@ -69,7 +87,7 @@ fun PaginatedHeadlinesList(
                         pageSize = 20,
                         fetch = onLoadMore
                     ) { headline, index ->
-                        HeadlineCard(
+                        NewsCard (
                             headline = headline,
                             modifier = Modifier
                                 .fillMaxWidth()
@@ -122,26 +140,28 @@ private fun HeadlineCard(
                 Image(
                     painter = rememberAsyncImagePainter(imageUrl),
                     contentDescription = "Image for headline: ${headline.title}",
-                    modifier = Modifier.fillMaxWidth().height(180.dp),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(180.dp),
                     contentScale = ContentScale.Crop
                 )
                 Spacer(modifier = Modifier.height(8.dp))
             }
-            
+
             Text(
                 text = headline.title,
                 fontWeight = FontWeight.Bold,
                 fontSize = 18.sp,
                 modifier = Modifier.semantics { heading() }
             )
-            
+
             headline.description?.let { description ->
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(text = description, fontSize = 14.sp)
             }
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
@@ -186,7 +206,9 @@ private fun LoadMoreIndicator(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.fillMaxWidth().padding(16.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -217,7 +239,9 @@ private fun ErrorState(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.fillMaxSize().padding(32.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(32.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -227,25 +251,25 @@ private fun ErrorState(
                 tint = MaterialTheme.colorScheme.error,
                 modifier = Modifier.size(64.dp)
             )
-            
+
             Spacer(modifier = Modifier.height(16.dp))
-            
+
             Text(
                 text = "Failed to load headlines",
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.error
             )
-            
+
             Spacer(modifier = Modifier.height(8.dp))
-            
+
             Text(
                 text = error.message,
                 style = MaterialTheme.typography.bodyMedium
             )
-            
+
             if (canRetry) {
                 Spacer(modifier = Modifier.height(24.dp))
-                
+
                 Button(
                     onClick = onRetry,
                     modifier = Modifier.sizeIn(minWidth = 48.dp, minHeight = 48.dp)
@@ -281,7 +305,7 @@ private fun ErrorFooter(
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onErrorContainer
             )
-            
+
             if (canRetry) {
                 Spacer(modifier = Modifier.height(8.dp))
                 TextButton(onClick = onRetry) {
@@ -298,7 +322,9 @@ private fun EmptyState(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.fillMaxSize().padding(32.dp),
+        modifier = modifier
+            .fillMaxSize()
+            .padding(32.dp),
         contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
@@ -306,9 +332,9 @@ private fun EmptyState(
                 text = "No headlines available",
                 style = MaterialTheme.typography.headlineSmall
             )
-            
+
             Spacer(modifier = Modifier.height(24.dp))
-            
+
             Button(
                 onClick = onRefresh,
                 modifier = Modifier.sizeIn(minWidth = 48.dp, minHeight = 48.dp)
@@ -327,7 +353,9 @@ private fun EndOfListIndicator(
     modifier: Modifier = Modifier
 ) {
     Box(
-        modifier = modifier.fillMaxWidth().padding(16.dp),
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp),
         contentAlignment = Alignment.Center
     ) {
         Text(
