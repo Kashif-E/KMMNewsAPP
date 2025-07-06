@@ -55,14 +55,15 @@ private fun HomeScreenContent(
         contentPadding = PaddingValues(0.dp)
     ) {
         item {
-            WelcomeHeader()
+            WelcomeHeader(modifier = Modifier.padding(16.dp))
         }
 
         item {
             SearchBar(
                 searchText = searchText,
                 onSearchTextChange = onSearchTextChange,
-                onSearchClick = onSearchClick
+                onSearchClick = onSearchClick,
+                modifier = Modifier.padding(16.dp)
             )
         }
 

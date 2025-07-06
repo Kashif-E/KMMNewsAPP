@@ -1,5 +1,6 @@
 package com.kashif.kmmnewsapp.feature.headlines.domain
 
+
 data class Headline(
     val id: String,
     val title: String,

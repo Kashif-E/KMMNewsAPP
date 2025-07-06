@@ -93,7 +93,7 @@ fun FeatureCard(
                         
                         Column {
                             Text(
-                                text = "Sang Dong-Min",
+                                text = headline.source,
                                 style = MaterialTheme.typography.labelMedium,
                                 color = Color.White,
                                 fontWeight = FontWeight.Medium
