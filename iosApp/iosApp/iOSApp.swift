@@ -27,14 +27,10 @@ struct iOSApp: App {
     
     var body: some Scene {
         WindowGroup {
-            TabView {
-                HeadlinesView()
-                    .tabItem {
-                        Image(systemName: "newspaper")
-                        Text("Headlines")
-                    }
+          
+             HeadlinesView()
             
             }
-        }
+        
     }
 }
