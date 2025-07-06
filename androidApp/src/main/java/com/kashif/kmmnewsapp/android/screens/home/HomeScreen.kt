@@ -55,6 +55,9 @@ private fun HomeScreenContent(
         contentPadding = PaddingValues(0.dp)
     ) {
         item {
+            Spacer(modifier = Modifier.height(WindowInsets.systemBars.asPaddingValues().calculateTopPadding()))
+        }
+        item {
             WelcomeHeader(modifier = Modifier.padding(16.dp))
         }
 
