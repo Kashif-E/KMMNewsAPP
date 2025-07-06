@@ -1,10 +1,12 @@
 package com.kashif.kmmnewsapp.android.components
 
+import android.util.Log
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import com.composables.icons.lucide.Lucide
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -14,8 +16,9 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.painterResource
 import coil3.compose.AsyncImage
-import com.composables.icons.lucide.Eye
+import com.kashif.kmmnewsapp.android.R
 import com.kashif.kmmnewsapp.feature.headlines.domain.Headline
 
 @Composable
@@ -80,10 +83,15 @@ fun ShortArticleCard(
                 model = headline.imageUrl,
                 contentDescription = headline.title,
                 contentScale = ContentScale.Crop,
+                placeholder = painterResource(R.drawable.ic_placeholder),
+                error = painterResource(R.drawable.ic_error),
                 modifier = Modifier
                     .fillMaxWidth()
                     .height(100.dp)
-                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp))
+                    .clip(RoundedCornerShape(topStart = 12.dp, topEnd = 12.dp)),
+                onError = {
+                    Log.e("ShortArticleCard", "Error loading image: ${it.result.throwable.message}")
+                }
             )
 
             Column(
@@ -106,7 +114,7 @@ fun ShortArticleCard(
                     verticalAlignment = Alignment.CenterVertically
                 ) {
                     Icon(
-                        imageVector = Lucide.Eye,
+                        imageVector = Icons.Default.Info,
                         contentDescription = "Views",
                         modifier = Modifier.size(16.dp),
                         tint = MaterialTheme.colorScheme.onSurfaceVariant
